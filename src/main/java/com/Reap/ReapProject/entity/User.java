@@ -2,6 +2,7 @@ package com.Reap.ReapProject.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity(name = "user")
@@ -15,10 +16,29 @@ public class User {
 
     @Column(name = "firstName")
     @NotBlank(message = "cannot be a blank field")
+    @NotNull
     private String firstName;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", image=" + Arrays.toString(image) +
+                ", password='" + password + '\'' +
+                ", gold=" + gold +
+                ", silver=" + silver +
+                ", bronze=" + bronze +
+                ", roleList=" + roleList +
+                ", active=" + active +
+                '}';
+    }
 
     @Column(name = "lastName")
     @NotBlank(message = "cannot be a blank field")
+    @NotNull
     private String lastName;
 
     @Column(name = "email")
@@ -26,7 +46,7 @@ public class User {
     private String email;
 
     @Lob
-    @Column(name = "photo")
+    @Column(name = "image")
     private Byte[] image;
 
     @Column(name = "password")
@@ -44,8 +64,7 @@ public class User {
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    @JoinTable(joinColumns = @JoinColumn(name = "userRole"))
-    private List<Role> userRoles;
+    private List<Role> roleList;
 
     @Column(name = "active")
     Boolean active;
@@ -122,12 +141,12 @@ public class User {
         this.bronze = bronze;
     }
 
-    public List<Role> getUserRoles() {
-        return userRoles;
+    public List<Role> getRoleList() {
+        return roleList;
     }
 
-    public void setUserRoles(List<Role> userRoles) {
-        this.userRoles = userRoles;
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 
     public Boolean getActive() {
