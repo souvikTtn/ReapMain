@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "user")
 @Table(name = "user")
@@ -31,8 +32,9 @@ public class User {
                 ", gold=" + gold +
                 ", silver=" + silver +
                 ", bronze=" + bronze +
-                ", roleList=" + roleList +
+                ", roleSet=" + roleSet +
                 ", active=" + active +
+                ", points=" + points +
                 '}';
     }
 
@@ -54,20 +56,39 @@ public class User {
     private String password;
 
     @Column(name = "gold")
-    Integer gold;
+    Integer gold=0;
 
     @Column(name = "silver")
-    Integer silver;
+    Integer silver=0;
 
     @Column(name = "bronze")
-    Integer bronze;
+    Integer bronze=0;
+
+    public Set<Role> getRoleSet() {
+        return roleSet;
+    }
+
+    public void setRoleSet(Set<Role> roleSet) {
+        this.roleSet = roleSet;
+    }
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    private List<Role> roleList;
+    private Set<Role> roleSet;
 
     @Column(name = "active")
     Boolean active;
+
+    @Column(name="points")
+    private Integer points=0;
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
 
     public Integer getId() {
         return id;
@@ -139,14 +160,6 @@ public class User {
 
     public void setBronze(Integer bronze) {
         this.bronze = bronze;
-    }
-
-    public List<Role> getRoleList() {
-        return roleList;
-    }
-
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
     }
 
     public Boolean getActive() {
