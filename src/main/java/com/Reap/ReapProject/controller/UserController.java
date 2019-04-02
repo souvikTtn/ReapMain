@@ -42,5 +42,11 @@ public class UserController {
         }
         else throw new UserNotFoundException("no user with the given id exists");
     }
+
+    //testing of internal server error
+    @GetMapping("/err5")
+    public void testError(){
+        throw new RuntimeException();
+    }
 }
 
