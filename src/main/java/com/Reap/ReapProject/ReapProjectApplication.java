@@ -8,6 +8,6 @@ public class ReapProjectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ReapProjectApplication.class, args);
+		System.out.println("Reap Started");
 	}
-
 }
