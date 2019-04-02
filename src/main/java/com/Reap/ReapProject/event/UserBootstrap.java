@@ -30,7 +30,6 @@ public class UserBootstrap {
             user.setEmail("souvikc40@gmail.com");
             user.setPassword("souvikdgreat");
             user.setActive(true);
-            //user.setRoleList(Arrays.asList(Role.ADMIN,Role.USER));
             Set<Role> roles=new HashSet<>();
             roles.add(Role.ADMIN);
             roles.add(Role.USER);
