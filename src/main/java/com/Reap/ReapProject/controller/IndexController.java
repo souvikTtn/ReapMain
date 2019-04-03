@@ -1,6 +1,8 @@
 package com.Reap.ReapProject.controller;
 
+import com.Reap.ReapProject.entity.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -8,8 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
 
     @GetMapping("/")
-    public ModelAndView getIndex(){
-        ModelAndView modelAndView=new ModelAndView("index");
-        return modelAndView;
+    public String getIndexPage(Model model){
+        User user=new User();
+        model.addAttribute("user",user);
+        return "index";
     }
 }

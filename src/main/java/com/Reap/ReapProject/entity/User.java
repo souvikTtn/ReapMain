@@ -2,9 +2,7 @@ package com.Reap.ReapProject.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity(name = "user")
 @Table(name = "user")
@@ -16,7 +14,7 @@ public class User {
     private Integer id;
 
     @Column(name = "firstName")
-    @NotBlank(message = "cannot be a blank field")
+    @NotBlank(message = "first name cannot be a blank field")
     @NotNull
     private String firstName;
 
@@ -27,7 +25,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", image=" + Arrays.toString(image) +
+                ", image='" + image + '\'' +
                 ", password='" + password + '\'' +
                 ", gold=" + gold +
                 ", silver=" + silver +
@@ -39,7 +37,7 @@ public class User {
     }
 
     @Column(name = "lastName")
-    @NotBlank(message = "cannot be a blank field")
+    @NotBlank(message = "last name cannot be a blank field")
     @NotNull
     private String lastName;
 
@@ -49,10 +47,11 @@ public class User {
 
     @Lob
     @Column(name = "image")
-    private Byte[] image;
+    private String image;
 
+    @NotBlank(message = "password field cannot be blank")
     @Column(name = "password")
-    @Size(min = 6)
+    @Size(min = 6,message = "password should be atleast 6 characters long")
     private String password;
 
     @Column(name = "gold")
@@ -74,10 +73,10 @@ public class User {
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    private Set<Role> roleSet;
+    private Set<Role> roleSet=new HashSet<>(Arrays.asList(Role.USER));
 
     @Column(name = "active")
-    Boolean active;
+    Boolean active=true;
 
     @Column(name="points")
     private Integer points=0;
@@ -122,11 +121,11 @@ public class User {
         this.email = email;
     }
 
-    public Byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

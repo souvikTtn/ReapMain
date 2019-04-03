@@ -4,20 +4,47 @@ import com.Reap.ReapProject.entity.User;
 import com.Reap.ReapProject.exception.UserNotFoundException;
 import com.Reap.ReapProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 public class UserController {
-
     @Autowired
     UserService userService;
+
+    //Save the uploaded file to this folder
+    private static String UPLOADED_FOLDER = "/home/joyy/Documents/Reap/ReapProject/src/main/resources/static/userImages/";
+
+
     @PostMapping("/users")
-    public void addUser(@RequestBody User user){
-        userService.addUser(user);
+    @ResponseBody
+    public String addUser(@Valid @ModelAttribute("user") User user, @RequestParam("photo") MultipartFile file, BindingResult result){
+        if(result.hasErrors()){
+            System.out.println("error caught");
+            return "index";
+        }
+        else {
+            try {
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+                Files.write(path, bytes);
+                user.setImage(path.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            userService.addUser(user);
+
+        }
+        return ("hello world");
     }
 
     @GetMapping("/users")
