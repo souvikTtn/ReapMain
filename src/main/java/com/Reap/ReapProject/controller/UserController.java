@@ -26,10 +26,8 @@ public class UserController {
 
 
     @PostMapping("/users")
-    @ResponseBody
-    public String addUser(@Valid @ModelAttribute("user") User user, @RequestParam("photo") MultipartFile file, BindingResult result){
+    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult result,@RequestParam("photo") MultipartFile file){
         if(result.hasErrors()){
-            System.out.println("error caught");
             return "index";
         }
         else {
@@ -42,7 +40,6 @@ public class UserController {
                 e.printStackTrace();
             }
             userService.addUser(user);
-
         }
         return ("hello world");
     }

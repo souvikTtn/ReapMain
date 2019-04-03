@@ -6,16 +6,16 @@
 <div class="container mx-auto my-5 p-4" style="background: #fff; width: 70%;">
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-login-tab" data-toggle="tab" href="#nav-login" role="tab"
+            <a class="nav-item nav-link " id="nav-login-tab" data-toggle="tab" href="#nav-login" role="tab"
                aria-controls="nav-login" aria-selected="true">Login</a>
-            <a class="nav-item nav-link" id="nav-signup-tab" data-toggle="tab" href="#nav-signup" role="tab"
+            <a class="nav-item nav-link active" id="nav-signup-tab" data-toggle="tab" href="#nav-signup" role="tab"
                aria-controls="nav-signup" aria-selected="false">Sign up</a>
         </div>
     </nav>
 
 
     <div class="tab-content p-4" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
+        <div class="tab-pane fade " id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
 
            <!--login form-->
             <form>
@@ -36,28 +36,29 @@
             </form>
             <!--login form-->
         </div>
-        <div class="tab-pane fade" id="nav-signup" role="tabpanel" aria-labelledby="nav-signup-tab">
+        <div class="tab-pane fade show active" id="nav-signup" role="tabpanel" aria-labelledby="nav-signup-tab">
 
             <!--registration form-->
             <form  th:action="@{/users}" th:object="${user}" method="post" enctype="multipart/form-data">
                 <div class="newer-row form-label-group">
                     <input type="text" id="inputFirstName" class="form-control" placeholder="First name" required
                            autofocus th:field="*{firstName}">
-                    <span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+                    <small class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></small>
                 </div>
 
                 <div class="newer-row form-label-group">
                     <input type="text" id="inputLastName" class="form-control" placeholder="Last name" required th:field="*{lastName}">
-                    <span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+                    <small class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
                 </div>
                 <div class="newer-row form-label-group">
                     <input type="email" id="inputEmailRegister" class="form-control" placeholder="Email address" required
                            autofocus th:field="*{email}">
-                    <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                    <small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
                 </div>
 
                 <div class="newer-row form-label-group">
                     <input type="password" id="inputPasswordRegister" class="form-control" placeholder="Password" required th:field="*{password}" >
+                    <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
                 </div>
                 <div class="custom-file newer-row">
                     <input type="file" class="custom-file-input" id="inputPhoto" name="photo" accept="image/*">
