@@ -22,11 +22,12 @@
                 data:form.serialize(),
                 success:function (data) {
                     alert("user sucessfully recognized")
+                    console.log(data);
+                    document.write(data);
                 },
                 error:function (data) {
                     alert("failed")
                 }
-                
             })
         })
     })
