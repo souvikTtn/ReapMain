@@ -16,5 +16,6 @@ public class RecognitionService {
         recognition.setDate(new Date());
         recognition.setTime(new Date());
         recognitionRepository.save(recognition);
+        System.out.println(recognition.getBadge());
     }
 }

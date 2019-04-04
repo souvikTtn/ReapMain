@@ -23,16 +23,27 @@
                             </div>
                             <div class="col-md-3 mb-3">
                                 <select class="form-control" required th:field="*{badge}">
+
                                     <option disabled selected value="">Select a Badge</option>
+
+                                    <span th:if="${user.getGoldSharable() > 0}">
                                     <option data-thumbnail="/images/gold.png" value="gold">Gold
                                         <small th:text="'('+${user.getGoldSharable()}+')'"></small>
                                     </option>
+                                    </span>
+
+                                    <span th:if="${user.getSilverSharable() > 0}">
                                     <option data-thumbnail="/images/silver.png" value="silver">Silver
                                         <small th:text="'('+${user.getSilverSharable()}+')'"></small>
                                     </option>
+                                    </span>
+
+                                    <span th:if="${user.getBronzeSharable() > 0}">
                                     <option data-thumbnail="/images/bronze.png" value="bronze">Bronze
                                         <small th:text="'('+${user.getBronzeSharable()}+')'"></small>
                                     </option>
+                                    </span>
+
                                 </select>
                             </div>
 
