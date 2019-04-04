@@ -19,6 +19,16 @@ public class Recognition {
 
     private String receiverName;
 
+    private String senderName;
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
     public String getReceiverName() {
         return receiverName;
     }
@@ -99,6 +109,8 @@ public class Recognition {
                 "id=" + id +
                 ", senderId=" + senderId +
                 ", receiverId=" + receiverId +
+                ", receiverName='" + receiverName + '\'' +
+                ", senderName='" + senderName + '\'' +
                 ", badge='" + badge + '\'' +
                 ", date=" + date +
                 ", reason='" + reason + '\'' +

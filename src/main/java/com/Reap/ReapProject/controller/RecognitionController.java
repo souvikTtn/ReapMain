@@ -22,9 +22,6 @@ public class RecognitionController {
     @ResponseBody
     public String recognizeUser(@ModelAttribute("recognition") Recognition recognition){
             String recieverName=recognition.getReceiverName();
-
-             System.out.println(recieverName);
-
              User user=userService.getUserByFullName(recieverName);
              recognition.setReceiverId(user.getId());
              recognitionService.addRecognition(recognition);

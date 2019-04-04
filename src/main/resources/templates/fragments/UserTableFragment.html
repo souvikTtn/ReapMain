@@ -12,6 +12,7 @@
                     <!--recognition form-->
                     <form action="#" th:action="@{/recognizeNewer}" th:object="${recognition}" method="post" id="recognize">
                         <input type="hidden" th:value="${user.getId()}" name="senderId" id="senderId"/>
+                        <input type="hidden" th:value="${user.getFullName()}" name="senderName" id="senderName"/>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="input-group">
@@ -50,18 +51,18 @@
                             <div class="col-md-3 mb-3">
                                 <select class="form-control" required th:field="*{reason}">
                                     <option disabled selected value="">Select a Karma/Core Value</option>
-                                    <option value="k-customer-delight">Karma: Customer Delight</option>
-                                    <option value="k-extra-miler">Karma: Extra Miler</option>
-                                    <option value="k-knowledge-sharing">Karma: Knowledge Sharing</option>
-                                    <option value="k-mentorship">Karma: Mentorship</option>
-                                    <option value="k-pat-on-the-back">Karma: Pat on the Back</option>
-                                    <option value="cv-continuous-learning-improvement">Core Value: Continuous Learning and Improvement
+                                    <option value="karma-customer-delight">Karma: Customer Delight</option>
+                                    <option value="karma-extra-miler">Karma: Extra Miler</option>
+                                    <option value="karma-knowledge-sharing">Karma: Knowledge Sharing</option>
+                                    <option value="karma-mentorship">Karma: Mentorship</option>
+                                    <option value="karma-pat-on-the-back">Karma: Pat on the Back</option>
+                                    <option value="corevalue-continuous-learning-improvement">Core Value: Continuous Learning and Improvement
                                     </option>
-                                    <option value="cv-contribution">Core Value: Contribution</option>
-                                    <option value="cv-diligence">Core Value: Diligence</option>
-                                    <option value="cv-empathy">Core Value: Empathy</option>
-                                    <option value="cv-openness-feedback-change">Core Value: Openness to Feedback and Change</option>
-                                    <option value="cv-responsible-freedom">Core Value: Responsible Freedom</option>
+                                    <option value="corevalue-contribution">Core Value: Contribution</option>
+                                    <option value="corevalue-diligence">Core Value: Diligence</option>
+                                    <option value="corevalue-empathy">Core Value: Empathy</option>
+                                    <option value="corevalue-openness-feedback-change">Core Value: Openness to Feedback and Change</option>
+                                    <option value="corevalue-responsible-freedom">Core Value: Responsible Freedom</option>
                                 </select>
                             </div>
                         </div>
@@ -146,7 +147,7 @@
                         <div class="col-sm-10">
                             <p><strong th:text="${recognition.getReceiverName()}"></strong>
                                 has received a <span th:text="${recognition.badge}"></span> from
-                                <strong th:text="${recognition.getSenderId()}"></strong><br/>
+                                <strong th:text="${recognition.getSenderName()}"></strong><br/>
                                 for <em th:text="${recognition.getReason()}"></em><br/>
                                 because <em th:text="${recognition.getComment()}"></em>
                             </p>
