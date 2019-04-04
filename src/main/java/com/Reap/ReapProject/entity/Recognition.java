@@ -1,6 +1,7 @@
 package com.Reap.ReapProject.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -16,6 +17,17 @@ public class Recognition {
 
     private Integer receiverId;
 
+    @Transient
+    private String receiverName;
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
     private String badge;
 
     @Temporal(TemporalType.DATE)
@@ -25,7 +37,6 @@ public class Recognition {
 
     @Lob
     @NotNull
-    @NotEmpty
     private String comment;
 
     @Temporal(TemporalType.TIME)

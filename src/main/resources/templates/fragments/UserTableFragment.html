@@ -8,45 +8,37 @@
                     <i class="far fa-star"></i> Recognize Newer
                 </div>
                 <div class="card-body">
-                    <form>
+
+                    <!--recognition form-->
+                    <form action="#" th:action="@{/recognizeNewer}" th:object="${recognition}" method="post" id="recognize">
+                        <input type="hidden" th:value="${user.getId()}" name="senderId" id="senderId"/>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="far fa-user"></i></div>
                                     </div>
-                                    <input type="text" class="form-control" required placeholder="Select a Newer">
+                                    <input type="text" class="form-control" required placeholder="Select a Newer" th:field="*{receiverName}">
                                 </div>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <select class="form-control" required>
-                                    <option disabled selected>Select a Badge</option>
-                                    <option data-thumbnail="/images/gold.png" value="2">Gold
-                                        <small>(6)</small>
+                                <select class="form-control" required th:field="*{badge}">
+                                    <option disabled selected value="">Select a Badge</option>
+                                    <option data-thumbnail="/images/gold.png" value="gold">Gold
+                                        <small th:text="'('+${user.getGoldSharable()}+')'"></small>
                                     </option>
-                                    <option data-thumbnail="/images/silver.png" value="4">Silver
-                                        <small>(4)</small>
+                                    <option data-thumbnail="/images/silver.png" value="silver">Silver
+                                        <small th:text="'('+${user.getSilverSharable()}+')'"></small>
                                     </option>
-                                    <option data-thumbnail="/images/bronze.png" value="6">Bronze
-                                        <small>(2)</small>
+                                    <option data-thumbnail="/images/bronze.png" value="bronze">Bronze
+                                        <small th:text="'('+${user.getBronzeSharable()}+')'"></small>
                                     </option>
                                 </select>
                             </div>
-                            <!--
-                            <div class="col-md-3 text-center dropdown">
-                              <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="badgeDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Select a Badge
-                              </button>
-                              <div class="dropdown-menu" aria-labelledby="badgeDropdownMenuButton">
-                                <a class="dropdown-item" href="#"><img src="/images/gold.png"> Gold <small>(2)</small></a>
-                                <a class="dropdown-item" href="#"><img src="/images/silver.png"> Silver <small>(4)</small></a>
-                                <a class="dropdown-item" href="#"><img src="/images/bronze.png"> Bronze <small>(6)</small></a>
-                              </div>
-                            </div>
-                            -->
+
                             <div class="col-md-3 mb-3">
-                                <select class="form-control" required>
-                                    <option disabled selected>Select a Karma/Core Value</option>
+                                <select class="form-control" required th:field="*{reason}">
+                                    <option disabled selected value="">Select a Karma/Core Value</option>
                                     <option value="k-customer-delight">Karma: Customer Delight</option>
                                     <option value="k-extra-miler">Karma: Extra Miler</option>
                                     <option value="k-knowledge-sharing">Karma: Knowledge Sharing</option>
@@ -64,18 +56,21 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <label for="reasonTextArea" style="font-weight: bold;">Reason</label>
+                                <label for="reasonTextArea" style="font-weight: bold;">Comments</label>
                                 <textarea rows="5" style="resize: none" class="form-control" id="reasonTextArea"
                                           placeholder="Please select a karma/core value first"
-                                          required></textarea>
+                                          required th:field="*{comment}"></textarea>
+                                <small class="text-danger" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></small>
                             </div>
                         </div>
                         <div class="row justify-content-end">
                             <div class="col-md-4">
-                                <button type="button" class="btn-block btn btn-success">Recognize</button>
+                                <button type="submit" class="btn-block btn btn-success">Recognize</button>
                             </div>
                         </div>
                     </form>
+
+
                 </div>
             </div>
             <!-- -->

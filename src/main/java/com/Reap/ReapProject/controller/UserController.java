@@ -1,5 +1,6 @@
 package com.Reap.ReapProject.controller;
 
+import com.Reap.ReapProject.entity.Recognition;
 import com.Reap.ReapProject.entity.Role;
 import com.Reap.ReapProject.entity.User;
 import com.Reap.ReapProject.exception.UserNotFoundException;
@@ -10,6 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -53,10 +57,13 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public String getUserById(@PathVariable("id") Integer id,Model model){
+    public String getUserById(@PathVariable("id") Integer id, Model model, HttpServletRequest request){
         Optional<User> user=userService.getUserById(id);
         if(user.isPresent()){
             model.addAttribute("user",user.get());
+            model.addAttribute("recognition",new Recognition());
+            //HttpSession session=request.getSession();
+            //session.setAttribute("id",id);
             if(user.get().getRoleSet().contains(Role.ADMIN)){
                 model.addAttribute("isAdmin",true);
                 List<User> users=userService.getAllUser();

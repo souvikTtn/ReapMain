@@ -3,7 +3,6 @@
 <head th:replace="fragments/MyFragments :: header">
 <body>
 
-
 <!-- Navbar -->
 <div th:replace="fragments/MyFragments :: navBar"></div>
 <!-- Content -->
@@ -11,5 +10,26 @@
 <div th:replace="fragments/AdminTableFragment :: adminTable"></div>
 
 <div th:replace="fragments/MyFragments :: footer"></div>
+
+<script>
+    $(document).ready(function (e) {
+        $("#recognize").submit(function (e) {
+            e.preventDefault();
+            var form=$(this);
+            $.ajax({
+                type:'POST',
+                url:'/recognizeNewer',
+                data:form.serialize(),
+                success:function (data) {
+                    alert("user sucessfully recognized")
+                },
+                error:function (data) {
+                    alert("failed")
+                }
+                
+            })
+        })
+    })
+</script>
 </body>
 </html>

@@ -29,6 +29,7 @@ public class UserBootstrap {
             user.setLastName("Chakraborty");
             user.setEmail("souvikc40@gmail.com");
             user.setPassword("souvikdgreat");
+            user.setFullName(user.getFirstName()+" "+user.getLastName());
             user.setActive(true);
             Set<Role> roles=new HashSet<>();
             roles.add(Role.ADMIN);
@@ -43,6 +44,7 @@ public class UserBootstrap {
             user1.setFirstName("Deepika");
             user1.setLastName("Tiwari");
             user1.setPassword("deesssooo");
+            user1.setFullName(user1.getFirstName()+" "+user1.getLastName());
             userService.addUser(user1);
 
             User user3 = new User();
@@ -51,6 +53,7 @@ public class UserBootstrap {
             user3.setFirstName("Divya");
             user3.setLastName("Arora");
             user3.setPassword("deesssooo");
+            user3.setFullName(user3.getFirstName()+" "+user3.getLastName());
             userService.addUser(user3);
 
             User user2 = new User();
@@ -59,6 +62,7 @@ public class UserBootstrap {
             user2.setFirstName("Dhruv");
             user2.setLastName("Oberoi");
             user2.setPassword("deesssooo");
+            user2.setFullName(user2.getFirstName()+" "+user2.getLastName());
             userService.addUser(user2);
 
             User user4 = new User();
@@ -67,6 +71,7 @@ public class UserBootstrap {
             user4.setFirstName("Kanchan");
             user4.setLastName("Sinha");
             user4.setPassword("deesssooo");
+            user4.setFullName(user4.getFirstName()+" "+user4.getLastName());
             userService.addUser(user4);
         }
     }
