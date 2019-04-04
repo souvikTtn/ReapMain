@@ -21,6 +21,17 @@ public class Recognition {
 
     private String senderName;
 
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
+
+    @Transient
+    private User receiver;
+
     public String getSenderName() {
         return senderName;
     }

@@ -24,9 +24,16 @@ public class RecognitionController {
              User user=userService.getUserByFullName(recieverName);
              recognition.setReceiverId(user.getId());
              recognitionService.addRecognition(recognition);
+             User receiver=userService.getUserById(recognition.getReceiverId()).get();
+             System.out.println(receiver);
 
-            System.out.println("called controller");
-            System.out.println(recognition);
+             recognition.setReceiver(receiver);
+
+             System.out.println("GOLD "+recognition.getReceiver().getGoldRedeemable());
+             System.out.println("SILVER "+recognition.getReceiver().getSilverRedeemable());
+             System.out.println("BRONZE "+recognition.getReceiver().getBronzeRedeemable());
+             System.out.println("called controller");
+             System.out.println(recognition);
             return "redirect:/users/"+recognition.getSenderId();
     }
 }
