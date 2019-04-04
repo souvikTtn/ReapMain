@@ -3,7 +3,6 @@ package com.Reap.ReapProject.service;
 import com.Reap.ReapProject.entity.Recognition;
 import com.Reap.ReapProject.entity.User;
 import com.Reap.ReapProject.repository.RecognitionRepository;
-import com.Reap.ReapProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +33,7 @@ public class RecognitionService {
         if(recognition.getBadge().equals("silver")){
             sender.get().setSilverSharable(sender.get().getSilverSharable()-1);
             receiver.get().setSilverRedeemable(receiver.get().getSilverRedeemable()+1);
+
         }
          if (recognition.getBadge().equals("gold")) {
              sender.get().setGoldSharable(sender.get().getGoldSharable()-1);
@@ -44,7 +44,7 @@ public class RecognitionService {
                 sender.get().setBronzeSharable(sender.get().getBronzeSharable()-1);
              receiver.get().setBronzeRedeemable(receiver.get().getBronzeRedeemable()+1);
          }
-
+        receiver.get().setPoints(userService.calculatePoints(receiver.get()));
         recognitionRepository.save(recognition);
 
         }
