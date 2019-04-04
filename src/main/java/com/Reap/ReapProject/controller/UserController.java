@@ -4,6 +4,7 @@ import com.Reap.ReapProject.entity.Recognition;
 import com.Reap.ReapProject.entity.Role;
 import com.Reap.ReapProject.entity.User;
 import com.Reap.ReapProject.exception.UserNotFoundException;
+import com.Reap.ReapProject.service.RecognitionService;
 import com.Reap.ReapProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    RecognitionService recognitionService;
 
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "/home/joyy/Documents/Reap/ReapProject/src/main/resources/static/userImages/";
@@ -64,6 +68,7 @@ public class UserController {
             model.addAttribute("recognition",new Recognition());
             //HttpSession session=request.getSession();
             //session.setAttribute("id",id);
+            model.addAttribute("recognitions",recognitionService.getListOfRecognitions());
             if(user.get().getRoleSet().contains(Role.ADMIN)){
                 model.addAttribute("isAdmin",true);
                 List<User> users=userService.getAllUser();

@@ -17,7 +17,6 @@ public class Recognition {
 
     private Integer receiverId;
 
-    @Transient
     private String receiverName;
 
     public String getReceiverName() {
