@@ -33,27 +33,27 @@ public class UserService {
     public User setBadges(User user){
 
         if (user.getRoleSet().contains(Role.PRACTICE_HEAD)){
-            user.setGold(9);
-            user.setSilver(6);
-            user.setBronze(3);
+            user.setGoldSharable(9);
+            user.setSilverSharable(6);
+            user.setBronzeSharable(3);
             return user;
         }
         if(user.getRoleSet().contains(Role.SUPERVISOR)){
-            user.setGold(6);
-            user.setSilver(3);
-            user.setBronze(2);
+            user.setGoldSharable(6);
+            user.setSilverSharable(3);
+            user.setBronzeSharable(2);
             return user;
         }
          if(user.getRoleSet().contains(Role.USER)){
-            user.setGold(3);
-            user.setSilver(2);
-            user.setBronze(1);
+            user.setGoldSharable(3);
+            user.setSilverSharable(2);
+            user.setBronzeSharable(1);
             return user;
         }
         return user;
     }
 
     public Integer calculatePoints(User user){
-        return  user.getBronze()*10+user.getSilver()*20+user.getGold()*30;
+        return  user.getBronzeRedeemable()*10+user.getSilverRedeemable()*20+user.getGoldRedeemable()*30;
     }
 }

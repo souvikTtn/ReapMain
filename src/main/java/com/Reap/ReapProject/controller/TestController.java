@@ -23,6 +23,7 @@ public class TestController {
         User user=new User();
         user.setFirstName("souvik");
         user.setLastName("chakraborty");
+        user.setGoldRedeemable(3);
         user.setEmail("souvik.chakraborty@tothenew.com");
         model.addAttribute("user",user);
         model.addAttribute("isAdmin",false);

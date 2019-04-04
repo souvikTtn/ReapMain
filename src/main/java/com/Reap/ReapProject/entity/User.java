@@ -27,9 +27,12 @@ public class User {
                 ", email='" + email + '\'' +
                 ", image='" + image + '\'' +
                 ", password='" + password + '\'' +
-                ", gold=" + gold +
-                ", silver=" + silver +
-                ", bronze=" + bronze +
+                ", goldSharable=" + goldSharable +
+                ", silverSharable=" + silverSharable +
+                ", bronzeSharable=" + bronzeSharable +
+                ", goldRedeemable=" + goldRedeemable +
+                ", silverRedeemable=" + silverRedeemable +
+                ", bronzeRedeemable=" + bronzeRedeemable +
                 ", roleSet=" + roleSet +
                 ", active=" + active +
                 ", points=" + points +
@@ -54,14 +57,25 @@ public class User {
     @Size(min = 6,message = "password should be atleast 6 characters long")
     private String password;
 
-    @Column(name = "gold")
-    Integer gold=0;
 
-    @Column(name = "silver")
-    Integer silver=0;
+    @Column(name = "goldSharable")
+    Integer goldSharable=0;
 
-    @Column(name = "bronze")
-    Integer bronze=0;
+    @Column(name = "silverSharable")
+    Integer silverSharable=0;
+
+    @Column(name = "bronzeSharable")
+    Integer bronzeSharable=0;
+
+    @Column(name = "goldRedeemable")
+    Integer goldRedeemable=0;
+
+    @Column(name = "silverRedeemable")
+    Integer silverRedeemable=0;
+
+    @Column(name = "bronzeRedeemable")
+    Integer bronzeRedeemable=0;
+
 
     public Set<Role> getRoleSet() {
         return roleSet;
@@ -137,28 +151,52 @@ public class User {
         this.password = password;
     }
 
-    public Integer getGold() {
-        return gold;
+    public Integer getGoldSharable() {
+        return goldSharable;
     }
 
-    public void setGold(Integer gold) {
-        this.gold = gold;
+    public void setGoldSharable(Integer goldSharable) {
+        this.goldSharable = goldSharable;
     }
 
-    public Integer getSilver() {
-        return silver;
+    public Integer getSilverSharable() {
+        return silverSharable;
     }
 
-    public void setSilver(Integer silver) {
-        this.silver = silver;
+    public void setSilverSharable(Integer silverSharable) {
+        this.silverSharable = silverSharable;
     }
 
-    public Integer getBronze() {
-        return bronze;
+    public Integer getBronzeSharable() {
+        return bronzeSharable;
     }
 
-    public void setBronze(Integer bronze) {
-        this.bronze = bronze;
+    public void setBronzeSharable(Integer bronzeSharable) {
+        this.bronzeSharable = bronzeSharable;
+    }
+
+    public Integer getGoldRedeemable() {
+        return goldRedeemable;
+    }
+
+    public void setGoldRedeemable(Integer goldRedeemable) {
+        this.goldRedeemable = goldRedeemable;
+    }
+
+    public Integer getSilverRedeemable() {
+        return silverRedeemable;
+    }
+
+    public void setSilverRedeemable(Integer silverRedeemable) {
+        this.silverRedeemable = silverRedeemable;
+    }
+
+    public Integer getBronzeRedeemable() {
+        return bronzeRedeemable;
+    }
+
+    public void setBronzeRedeemable(Integer bronzeRedeemable) {
+        this.bronzeRedeemable = bronzeRedeemable;
     }
 
     public Boolean getActive() {

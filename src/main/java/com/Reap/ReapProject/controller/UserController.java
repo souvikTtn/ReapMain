@@ -1,5 +1,6 @@
 package com.Reap.ReapProject.controller;
 
+import com.Reap.ReapProject.entity.Role;
 import com.Reap.ReapProject.entity.User;
 import com.Reap.ReapProject.exception.UserNotFoundException;
 import com.Reap.ReapProject.service.UserService;
@@ -56,6 +57,11 @@ public class UserController {
         Optional<User> user=userService.getUserById(id);
         if(user.isPresent()){
             model.addAttribute("user",user.get());
+            if(user.get().getRoleSet().contains(Role.ADMIN)){
+                model.addAttribute("isAdmin",true);
+                List<User> users=userService.getAllUser();
+                model.addAttribute("users",users);
+            }
             return "UserPage";
         }
         else throw new UserNotFoundException("no user with the given id exists");
