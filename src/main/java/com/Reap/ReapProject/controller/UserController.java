@@ -5,6 +5,7 @@ import com.Reap.ReapProject.exception.UserNotFoundException;
 import com.Reap.ReapProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +27,7 @@ public class UserController {
 
 
     @PostMapping("/users")
-    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult result,@RequestParam("photo") MultipartFile file){
+    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult result, @RequestParam("photo") MultipartFile file){
         if(result.hasErrors()){
             return "index";
         }
@@ -40,8 +41,9 @@ public class UserController {
                 e.printStackTrace();
             }
             userService.addUser(user);
+            return ("redirect:/users/"+user.getId());
         }
-        return ("hello world");
+
     }
 
     @GetMapping("/users")
@@ -50,10 +52,11 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable("id") Integer id){
+    public String getUserById(@PathVariable("id") Integer id,Model model){
         Optional<User> user=userService.getUserById(id);
         if(user.isPresent()){
-            return user.get();
+            model.addAttribute("user",user.get());
+            return "UserPage";
         }
         else throw new UserNotFoundException("no user with the given id exists");
     }

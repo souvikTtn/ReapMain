@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>REAP</title>
-    <link rel="icon" href="images/favicon.ico">
+    <link rel="icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
           integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="/style/style.css">
 </head>
 
 <nav th:fragment="navBar" class="navbar navbar-light bg-white navbar-expand-lg sticky-top">
     <a class="navbar-brand" href="#">
-        <img src="images/reap-logo.png" height="30" class="d-inline-block align-top" alt="reap-logo">
+        <img src="/images/reap-logo.png" height="30" class="d-inline-block align-top" alt="reap-logo">
     </a>
     <!-- Hide on screens smaller than lg -->
     <span class="navbar-text d-none d-lg-block">
@@ -61,7 +61,7 @@
                                 <div class="col-md-4">
                                     <small>Name</small>
                                 </div>
-                                <div class="col-md-8">Souvik Chakraborty</div>
+                                <div class="col-md-8" th:text="${user.firstName}+' '+${user.lastName}"></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
@@ -79,7 +79,7 @@
                                 <div class="col-md-4">
                                     <small>Email</small>
                                 </div>
-                                <div class="col-md-8">souvik.chakraborty@tothenew.com</div>
+                                <div class="col-md-8" th:text="${user.email}"></div>
                             </div>
                         </div>
                     </div>
