@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,7 +72,10 @@ public class UserController {
             model.addAttribute("searchUser",new SearchUser());
             //HttpSession session=request.getSession();
             //session.setAttribute("id",id);
-            model.addAttribute("recognitions",recognitionService.getListOfRecognitions());
+
+            List<Recognition> recognitions=recognitionService.getListOfRecognitions();
+            Collections.reverse(recognitions);
+            model.addAttribute("recognitions",recognitions);
             if(user.get().getRoleSet().contains(Role.ADMIN)){
                 model.addAttribute("isAdmin",true);
                 List<User> users=userService.getAllUser();
@@ -100,14 +104,14 @@ public class UserController {
         return  "redirect:/users/"+user.getId();
     }
 
-    @GetMapping("/searchRecogByName")
+    @PostMapping("/searchRecogByName")
     @ResponseBody
     public List<Recognition> getUserRecogByName(@ModelAttribute("searchUser")SearchUser searchUser){
         System.out.println("controller called");
         searchUser.getCurrentUserId();
-        recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName());
+        List<Recognition> recognitions=recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName());
         System.out.println( recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName()));
-        return  recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName());
+        return  recognitions;
     }
 }
 

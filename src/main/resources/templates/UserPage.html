@@ -22,7 +22,6 @@
                 url:'/recognizeNewer',
                 data:form.serialize(),
                 success:function (data) {
-                    alert("user sucessfully recognized")
                     document.write(data);
                 },
                 error:function (data) {
@@ -35,18 +34,22 @@
             e.preventDefault();
             var form=$(this);
             var users=$.ajax({
-                type:'GET',
+                type:'POST',
                 url:'/searchRecogByName',
                 dataType: 'json',
                 data:form.serialize(),
                 success:function (data) {
+
+                    $("#userdataDiv").empty()
                     console.log(data[0].receiverName);
                     console.log(JSON.stringify(data));
                     data.forEach(function (e) {
                         console.log(e.receiverName)
-                        $("#userdata").append("<strong> " + e.receiverName + "</strong> " + e.badge +" from "+ e.senderName +"<br>")
-                    })
+                        $("#userdataDiv").append("<strong> " + e.receiverName + "</strong> has received " +
+                            e.badge +" from "+ e.senderName +" on " + e.date +" for "+e.reason+"<br>")
 
+                    })
+                    $("#searchUser").val("");
                 }
 
             })
