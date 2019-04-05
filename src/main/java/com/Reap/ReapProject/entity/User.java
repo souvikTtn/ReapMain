@@ -55,8 +55,10 @@ public class User {
     @NotNull
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     @Email(message = "email should be valid")
+    @NotBlank
+    @NotNull
     private String email;
 
     @Lob

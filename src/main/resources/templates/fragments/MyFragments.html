@@ -30,21 +30,6 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Back to Newers World</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="far fa-star"></i> Badges</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="far fa-file-alt"></i> Certificate</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="far fa-bell"></i> Notifications</a>
-            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                    href="#"
@@ -61,7 +46,7 @@
                                 <div class="col-md-4">
                                     <small>Name</small>
                                 </div>
-                                <div class="col-md-8" th:text="${user.firstName}+' '+${user.lastName}"></div>
+                                <div class="col-md-8" th:text="${user.getFullName()}"></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">

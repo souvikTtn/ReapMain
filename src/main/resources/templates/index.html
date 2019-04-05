@@ -18,14 +18,14 @@
         <div class="tab-pane fade " id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
 
            <!--login form-->
-            <form>
+            <form th:action="@{/login}" th:object="${loggedUser}" method="post">
                 <div class="newer-row form-label-group">
                     <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required
-                           autofocus>
+                           autofocus th:field="*{email}">
                 </div>
 
                 <div class="newer-row form-label-group">
-                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required th:field="*{password}">
                 </div>
                 <div class="newer-row">
                     <a href="#" class="small">Forgot password?</a>

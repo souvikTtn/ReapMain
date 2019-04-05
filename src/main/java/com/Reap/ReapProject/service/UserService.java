@@ -58,6 +58,10 @@ public class UserService {
         return  user.getBronzeRedeemable()*10+user.getSilverRedeemable()*20+user.getGoldRedeemable()*30;
     }
 
+    public User getUserByEmailAndPassword(String email,String password){
+        return userRepository.findByEmailAndPassword(email,password);
+    }
+
     public User getUserByFullName(String fullName){
         return userRepository.findByFullName(fullName);
     }

@@ -91,52 +91,10 @@
                     <i class="fas fa-trophy"></i> Wall of Fame
                     <form style="display: inline-block" class="form-inline ml-4">
                         <input type="text" class="form-control form-control-sm" id="" placeholder="Search">
-                        <select class="form-control form-control-sm">
-                            <option disabled selected>Business Unit</option>
-                            <option value="b2b-content-marketing">B2B Content Marketing</option>
-                            <option value="digital-marketing-india">Digital Marketing India</option>
-                            <option value="social-analytics">Social Analytics</option>
-                            <option value="technology">Technology</option>
-                            <option value="ttn-overheads">TTN Overheads</option>
-                            <option value="ttnv">TTNV</option>
-                            <option value="vdma">VDMA</option>
-                            <option value="video-solutions">Video Solutions</option>
-                        </select>
-                        <select class="form-control form-control-sm">
-                            <option disabled selected>Region</option>
-                            <option value="admin">Admin</option>
-                            <option value="aryans">Aryans</option>
-                            <option value="cyborgs">Cyborgs</option>
-                            <option value="digital-marketing">Digital Marketing</option>
-                            <option value="finance">Finance</option>
-                            <option value="human-resources">Human Resources</option>
-                            <option value="it">IT</option>
-                            <option value="managed-services">Managed Services</option>
-                            <option value="management">Management</option>
-                            <option value="ninjas">Ninjas</option>
-                            <option value="non-tech-sales">Non-Tech Sales</option>
-                            <option value="pre-sales">Pre-Sales</option>
-                            <option value="social-analytics">Social Analytics</option>
-                            <option value="spartans">Spartans</option>
-                            <option value="tech-sales">Tech Sales</option>
-                            <option value="titans">Titans</option>
-                            <option value="ttn-marketing">TTN Marketing</option>
-                            <option value="vanguardians">Vanguardians</option>
-                            <option value="vikings">Vikings</option>
-                            <option value="vof">VOF</option>
-                        </select>
-                        <span class="dropdown">
-              <a href="#" role="button" id="dateDropdownLink" data-toggle="dropdown" aria-haspopup="true"
-                 aria-expanded="false">
-                <i class="far fa-calendar-alt"></i>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dateDropdownLink">
-                <a class="dropdown-item" style="text-transform: initial;" href="#">Today</a>
-                <a class="dropdown-item" style="text-transform: initial;" href="#">Yesterday</a>
-                <a class="dropdown-item" style="text-transform: initial;" href="#">Last 7 days</a>
-                <a class="dropdown-item" style="text-transform: initial;" href="#">Last 30 days</a>
-              </div>
-            </span>
+                        <span>
+
+                             <button class="btn btn-success btn-sm" type="submit">Search</button>
+                        </span>
                     </form>
                 </div>
                 <div class="card-body" th:each="recognition: ${recognitions}">
@@ -193,14 +151,66 @@
                                     <small th:text="${user.getBronzeRedeemable()}"></small>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col">
+                                    <strong th:text="${user.getPoints()}"></strong>
+                                    <strong> points</strong>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="far fa-star"></i> My Sharable Badges
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-3">
+                            <i class="far fa-user-circle"></i>
+                        </div>
+                        <div class="col-9">
+                            <strong th:text="${user.firstName}+' '+${user.lastName}"></strong><br/>
+                            <div class="row">
+                                <div class="col-3">
+                                    <img src="/images/gold.png">
+                                    <small th:text="${user.getGoldSharable()}"></small>
+                                </div>
+                                <div class="col-3">
+                                    <img src="/images/silver.png">
+                                    <small th:text="${user.getSilverSharable()}"></small>
+                                </div>
+                                <div class="col-3">
+                                    <img src="/images/bronze.png">
+                                    <small th:text="${user.getBronzeSharable()}"></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-header">
                     <i class="far fa-calendar-alt"></i> Newers Board
-                    <small style="text-transform: initial;">(last 7 days)</small>
+                    <span class="dropdown">
+              <a href="#" role="button" id="dateDropdownLink" data-toggle="dropdown" aria-haspopup="true"
+                 aria-expanded="false">
+                <i class="far fa-calendar-alt"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dateDropdownLink">
+                <a class="dropdown-item" style="text-transform: initial;" href="#">Today</a>
+                <a class="dropdown-item" style="text-transform: initial;" href="#">Yesterday</a>
+                <a class="dropdown-item" style="text-transform: initial;" href="#">Last 7 days</a>
+                <a class="dropdown-item" style="text-transform: initial;" href="#">Last 30 days</a>
+              </div>
+                             <button class="btn btn-success btn-sm" type="submit">Search</button>
+            </span>
+
+
+
                 </div>
                 <div class="card-body" th:each="recognition:${recognitions}">
                     <div class="row newer-row justify-content-center">

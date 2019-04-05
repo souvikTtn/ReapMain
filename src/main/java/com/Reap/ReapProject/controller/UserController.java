@@ -1,5 +1,6 @@
 package com.Reap.ReapProject.controller;
 
+import com.Reap.ReapProject.component.LoggedInUser;
 import com.Reap.ReapProject.entity.Recognition;
 import com.Reap.ReapProject.entity.Role;
 import com.Reap.ReapProject.entity.User;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -86,5 +88,15 @@ public class UserController {
         }
         else throw new UserNotFoundException("no user with the given id exists");
     }
+
+    @PostMapping("/login")
+    public String userLogin(@ModelAttribute("loggedUser")LoggedInUser loggedInUser,HttpServletRequest request){
+        User user=userService.getUserByEmailAndPassword(loggedInUser.getEmail(),loggedInUser.getPassword());
+        loggedInUser.setId(user.getId());
+        HttpSession session=request.getSession();
+        session.setAttribute("loginUser",loggedInUser);
+        return  "redirect:/users/"+user.getId();
+    }
+
 }
 
