@@ -56,5 +56,7 @@ public class RecognitionService {
         public List<Recognition> getListOfRecognitionsByReceiverName(String receiverName){
             return recognitionRepository.findRecognitionByReceiverName(receiverName);
         }
+
+
     }
 

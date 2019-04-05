@@ -21,16 +21,33 @@ public class Recognition {
 
     private String senderName;
 
-    public User getReceiver() {
-        return receiver;
+    private Integer goldRedeemable;
+    private Integer silverRedeemable;
+    private Integer bronzeRedeemable;
+
+    public Integer getGoldRedeemable() {
+        return goldRedeemable;
     }
 
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
+    public void setGoldRedeemable(Integer goldRedeemable) {
+        this.goldRedeemable = goldRedeemable;
     }
 
-    @Transient
-    private User receiver;
+    public Integer getSilverRedeemable() {
+        return silverRedeemable;
+    }
+
+    public void setSilverRedeemable(Integer silverRedeemable) {
+        this.silverRedeemable = silverRedeemable;
+    }
+
+    public Integer getBronzeRedeemable() {
+        return bronzeRedeemable;
+    }
+
+    public void setBronzeRedeemable(Integer bronzeRedeemable) {
+        this.bronzeRedeemable = bronzeRedeemable;
+    }
 
     public String getSenderName() {
         return senderName;
