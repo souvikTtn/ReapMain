@@ -1,6 +1,7 @@
 package com.Reap.ReapProject.controller;
 
 import com.Reap.ReapProject.component.LoggedInUser;
+import com.Reap.ReapProject.component.SearchUser;
 import com.Reap.ReapProject.entity.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

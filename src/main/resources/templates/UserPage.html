@@ -23,12 +23,32 @@
                 data:form.serialize(),
                 success:function (data) {
                     alert("user sucessfully recognized")
-                    console.log(data);
                     document.write(data);
                 },
                 error:function (data) {
                     alert("failed")
                 }
+            })
+        })
+
+        $("#searchRecognition").submit(function (e) {
+            e.preventDefault();
+            var form=$(this);
+            var users=$.ajax({
+                type:'GET',
+                url:'/searchRecogByName',
+                dataType: 'json',
+                data:form.serialize(),
+                success:function (data) {
+                    console.log(data[0].receiverName);
+                    console.log(JSON.stringify(data));
+                    data.forEach(function (e) {
+                        console.log(e.receiverName)
+                        $("#userdata").append("<strong> " + e.receiverName + "</strong> " + e.badge +" from "+ e.senderName +"<br>")
+                    })
+
+                }
+
             })
         })
     })

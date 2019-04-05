@@ -20,20 +20,12 @@ public class RecognitionController {
 
     @PostMapping("/recognizeNewer")
     public String recognizeUser(@ModelAttribute("recognition") Recognition recognition){
-            String recieverName=recognition.getReceiverName();
+             String recieverName=recognition.getReceiverName();
              User user=userService.getUserByFullName(recieverName);
              recognition.setReceiverId(user.getId());
              recognitionService.addRecognition(recognition);
              User receiver=userService.getUserById(recognition.getReceiverId()).get();
-             System.out.println(receiver);
-
              recognition.setReceiver(receiver);
-
-             System.out.println("GOLD "+recognition.getReceiver().getGoldRedeemable());
-             System.out.println("SILVER "+recognition.getReceiver().getSilverRedeemable());
-             System.out.println("BRONZE "+recognition.getReceiver().getBronzeRedeemable());
-             System.out.println("called controller");
-             System.out.println(recognition);
             return "redirect:/users/"+recognition.getSenderId();
     }
 }

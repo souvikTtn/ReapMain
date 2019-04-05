@@ -1,6 +1,7 @@
 package com.Reap.ReapProject.controller;
 
 import com.Reap.ReapProject.component.LoggedInUser;
+import com.Reap.ReapProject.component.SearchUser;
 import com.Reap.ReapProject.entity.Recognition;
 import com.Reap.ReapProject.entity.Role;
 import com.Reap.ReapProject.entity.User;
@@ -67,6 +68,7 @@ public class UserController {
         if(user.isPresent()){
             model.addAttribute("user",user.get());
             model.addAttribute("recognition",new Recognition());
+            model.addAttribute("searchUser",new SearchUser());
             //HttpSession session=request.getSession();
             //session.setAttribute("id",id);
             model.addAttribute("recognitions",recognitionService.getListOfRecognitions());
@@ -98,5 +100,14 @@ public class UserController {
         return  "redirect:/users/"+user.getId();
     }
 
+    @GetMapping("/searchRecogByName")
+    @ResponseBody
+    public List<Recognition> getUserRecogByName(@ModelAttribute("searchUser")SearchUser searchUser){
+        System.out.println("controller called");
+        searchUser.getCurrentUserId();
+        recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName());
+        System.out.println( recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName()));
+        return  recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName());
+    }
 }
 
