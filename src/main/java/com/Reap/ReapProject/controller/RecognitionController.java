@@ -33,7 +33,7 @@ public class RecognitionController {
              recognition.setGoldRedeemable(receiver.getGoldRedeemable());
              recognition.setSilverRedeemable(receiver.getSilverRedeemable());
              recognition.setBronzeRedeemable(receiver.getBronzeRedeemable());
-             recognitionService.addRecognition(recognition);
+             recognitionService.updateRecognistion(recognition);
 
 
              

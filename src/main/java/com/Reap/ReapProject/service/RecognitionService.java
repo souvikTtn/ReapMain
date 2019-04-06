@@ -49,6 +49,12 @@ public class RecognitionService {
         recognitionRepository.save(recognition);
 
         }
+
+        public void updateRecognistion(Recognition recognition){
+            Recognition newRecognition=recognitionRepository.findById(recognition.getId()).get();
+            recognitionRepository.save(newRecognition);
+        }
+
         public List<Recognition> getListOfRecognitions(){
             return recognitionRepository.findAll();
         }

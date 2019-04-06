@@ -38,10 +38,11 @@
                 dataType: 'json',
                 data:form.serialize(),
                 success:function (data) {
-
+                    $("#recognitionFoundHeader").hide();
                     $("#userdataDiv").empty()
                     console.log(data[0].receiverName);
                     console.log(JSON.stringify(data));
+                    $("#recognitionFoundHeader").show();
                     data.forEach(function (e) {
                         console.log(e.receiverName)
                         $("#userdataDiv").append("<strong> " + e.receiverName + "</strong> has received " +
