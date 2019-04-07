@@ -21,6 +21,8 @@ public class Recognition {
 
     private String senderName;
 
+
+    //these fields are added just to render the badges in thymeleaf page
     private Integer goldRedeemable;
     private Integer silverRedeemable;
     private Integer bronzeRedeemable;

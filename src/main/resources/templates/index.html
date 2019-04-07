@@ -13,10 +13,8 @@
         </div>
     </nav>
 
-
     <div class="tab-content p-4" id="nav-tabContent">
         <div class="tab-pane fade " id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
-
            <!--login form-->
             <form th:action="@{/login}" th:object="${loggedUser}" method="post">
                 <div class="newer-row form-label-group">
@@ -40,6 +38,9 @@
 
             <!--registration form-->
             <form  th:action="@{/users}" th:object="${user}" method="post" enctype="multipart/form-data">
+                <div>
+                   <!-- <h1 th:text="${loginError}"></h1>-->
+                </div>
                 <div class="newer-row form-label-group">
                     <input type="text" id="inputFirstName" class="form-control" placeholder="First name" required
                            autofocus th:field="*{firstName}">

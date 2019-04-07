@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,11 +40,13 @@ public class UserController {
 
 
     @PostMapping("/users")
-    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult result, @RequestParam("photo") MultipartFile file){
+    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult result,@ModelAttribute("loggedUser")LoggedInUser loggedInUser, @RequestParam("photo") MultipartFile file,HttpServletRequest request){
         if(result.hasErrors()){
             return "index";
         }
         else {
+            HttpSession session=request.getSession();
+            session.setAttribute("loginUser",user);
             try {
                 byte[] bytes = file.getBytes();
                 Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
@@ -65,13 +68,23 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public String getUserById(@PathVariable("id") Integer id, Model model, HttpServletRequest request){
+        HttpSession session=request.getSession();
+        User user1=(User) session.getAttribute("loginUser");
+        try {
+            if(id!=user1.getId()){
+                return "redirect:/";
+            }
+        }
+        catch (NullPointerException e){
+            return "redirect:/";
+        }
+
+
         Optional<User> user=userService.getUserById(id);
         if(user.isPresent()){
             model.addAttribute("user",user.get());
             model.addAttribute("recognition",new Recognition());
             model.addAttribute("searchUser",new SearchUser());
-            //HttpSession session=request.getSession();
-            //session.setAttribute("id",id);
 
             List<Recognition> recognitions=recognitionService.getListOfRecognitions();
             Collections.reverse(recognitions);
@@ -96,13 +109,20 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String userLogin(@ModelAttribute("loggedUser")LoggedInUser loggedInUser,HttpServletRequest request){
+    public ModelAndView userLogin(@ModelAttribute("loggedUser")LoggedInUser loggedInUser, HttpServletRequest request){
+
         User user=userService.getUserByEmailAndPassword(loggedInUser.getEmail(),loggedInUser.getPassword());
-        loggedInUser.setId(user.getId());
-        HttpSession session=request.getSession();
-        session.setAttribute("loginUser",loggedInUser);
-        return  "redirect:/users/"+user.getId();
+
+        if(user!=null){
+            HttpSession session=request.getSession();
+            session.setAttribute("loginUser",user);
+            return  new ModelAndView("redirect:/users/"+user.getId());
+        }
+        else {
+            return new ModelAndView("redirect:/").addObject("loginError","No user with such credentials exists");
+        }
     }
+
 
     @PostMapping("/searchRecogByName")
     @ResponseBody
@@ -112,6 +132,14 @@ public class UserController {
         List<Recognition> recognitions=recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName());
         System.out.println( recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName()));
         return  recognitions;
+    }
+
+    @PostMapping
+    public String logout(HttpServletRequest request)
+    {
+        HttpSession session=request.getSession();
+        session.invalidate();
+        return "redirect:/";
     }
 }
 

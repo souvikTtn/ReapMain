@@ -1,5 +1,6 @@
 package com.Reap.ReapProject.service;
 
+import com.Reap.ReapProject.component.LoggedInUser;
 import com.Reap.ReapProject.entity.Role;
 import com.Reap.ReapProject.entity.User;
 import com.Reap.ReapProject.repository.UserRepository;
@@ -65,4 +66,5 @@ public class UserService {
     public User getUserByFullName(String fullName){
         return userRepository.findByFullName(fullName);
     }
+
 }

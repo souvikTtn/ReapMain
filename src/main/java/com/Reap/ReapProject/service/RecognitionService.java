@@ -43,7 +43,7 @@ public class RecognitionService {
 
          if (recognition.getBadge().equals("bronze")){
                 sender.get().setBronzeSharable(sender.get().getBronzeSharable()-1);
-             receiver.get().setBronzeRedeemable(receiver.get().getBronzeRedeemable()+1);
+                receiver.get().setBronzeRedeemable(receiver.get().getBronzeRedeemable()+1);
          }
         receiver.get().setPoints(userService.calculatePoints(receiver.get()));
         recognitionRepository.save(recognition);
