@@ -22,4 +22,7 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	//testImplementation 'org.springframework.security:spring-security-test'
+	testCompile('io.rest-assured:rest-assured:3.1.0')
+	testCompile('com.jayway.restassured:rest-assured:2.3.3')
+	testCompile 'org.hamcrest:hamcrest-all:1.3'
 }
