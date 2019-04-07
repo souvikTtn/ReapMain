@@ -54,6 +54,21 @@
 
             })
         })
+
+        $("#logout").click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url:'/logout',
+                success:function (data) {
+                    window.location.reload();
+                },
+                error:function () {
+                    alert("failed")
+                }
+            })
+        })
+
     })
 </script>
 </body>

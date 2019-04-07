@@ -134,7 +134,7 @@ public class UserController {
         return  recognitions;
     }
 
-    @PostMapping
+    @PostMapping("/logout")
     public String logout(HttpServletRequest request)
     {
         HttpSession session=request.getSession();
