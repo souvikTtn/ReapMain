@@ -30,32 +30,6 @@
             })
         })
 
-        /*$("#searchRecognition").submit(function (e) {
-            e.preventDefault();
-            var form=$(this);
-            var users=$.ajax({
-                type:'POST',
-                url:'/searchRecogByName',
-                dataType: 'json',
-                data:form.serialize(),
-                success:function (data) {
-                    $("#recognitionFoundHeader").hide();
-                    $("#userdataDiv").empty()
-                    console.log(data[0].receiverName);
-                    console.log(JSON.stringify(data));
-                    $("#recognitionFoundHeader").show();
-                    data.forEach(function (e) {
-                        console.log(e.receiverName)
-                        $("#userdataDiv").append("<strong> " + e.receiverName + "</strong> has received " +
-                            e.badge +" from "+ e.senderName +" on " + e.date +" for "+e.reason+"<br>")
-
-                    })
-                    $("#searchUser").val("");
-                }
-
-            })
-        })*/
-
 
         $("#searchRecognitionButton").click(function () {
             var form=$("#searchRecognition")
@@ -63,16 +37,27 @@
                 type:'POST',
                 url:"/searchRecogByName",
                 data:form.serialize(),
-                success:function (data) {
-                    $("#recognitionFoundHeader").hide();
-                    $("#userdataDiv").empty()
+                success: function (data) {
+                    $("#recognitionResults").hide()
+                    $("#userdataDiv").empty();
                     data.forEach(function (e) {
-                        $("#recognitionFoundHeader").show();
-                        console.log(e.receiverName)
-                        $("#userdataDiv").append("<strong> " + e.receiverName + "</strong> has received " +
-                            e.badge +" from "+ e.senderName +" on " + e.date +" for "+e.reason+"<br>")
-
-                    })
+                        $("#recognitionResults").show()
+                        $("#userdataDiv").append(
+                            "<strong> " +
+                            e.receiverName +
+                            "</strong> has received a " +
+                            e.badge +
+                            " from " +
+                            e.senderName +
+                            " for " +
+                            e.reason +
+                            " because " +
+                            e.comment +
+                            "<br>" +
+                            " on " + e.date +
+                            "<br>"
+                        )
+                    });
                     $("#searchUser").val("");
                 },
                 error:function () {
