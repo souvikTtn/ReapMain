@@ -20,4 +20,12 @@ public class SearchUser {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
+    @Override
+    public String toString() {
+        return "SearchUser{" +
+                "currentUserId=" + currentUserId +
+                ", fullName='" + fullName + '\'' +
+                '}';
+    }
 }

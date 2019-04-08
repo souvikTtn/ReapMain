@@ -21,7 +21,8 @@
                 url:'/recognizeNewer',
                 data:form.serialize(),
                 success:function (data) {
-                    document.write(data);
+                    //document.write(data);
+                    window.location.reload();
                 },
                 error:function (data) {
                     alert("failed")
@@ -29,7 +30,7 @@
             })
         })
 
-        $("#searchRecognition").submit(function (e) {
+        /*$("#searchRecognition").submit(function (e) {
             e.preventDefault();
             var form=$(this);
             var users=$.ajax({
@@ -52,6 +53,31 @@
                     $("#searchUser").val("");
                 }
 
+            })
+        })*/
+
+
+        $("#searchRecognitionButton").click(function () {
+            var form=$("#searchRecognition")
+            $.ajax({
+                type:'POST',
+                url:"/searchRecogByName",
+                data:form.serialize(),
+                success:function (data) {
+                    $("#recognitionFoundHeader").hide();
+                    $("#userdataDiv").empty()
+                    data.forEach(function (e) {
+                        $("#recognitionFoundHeader").show();
+                        console.log(e.receiverName)
+                        $("#userdataDiv").append("<strong> " + e.receiverName + "</strong> has received " +
+                            e.badge +" from "+ e.senderName +" on " + e.date +" for "+e.reason+"<br>")
+
+                    })
+                    $("#searchUser").val("");
+                },
+                error:function () {
+                    alert("failed");
+                }
             })
         })
 

@@ -137,6 +137,7 @@ public class UserController {
     @ResponseBody
     public List<Recognition> getUserRecogByName(@ModelAttribute("searchUser")SearchUser searchUser){
         System.out.println("controller called");
+        System.out.println("search user "+searchUser);
         searchUser.getCurrentUserId();
         List<Recognition> recognitions=recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName());
         System.out.println( recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName()));

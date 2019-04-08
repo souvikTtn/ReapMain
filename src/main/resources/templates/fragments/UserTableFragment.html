@@ -10,7 +10,7 @@
                 <div class="card-body">
 
                     <!--recognition form-->
-                    <form action="#" th:action="@{/recognizeNewer}" th:object="${recognition}" method="post" id="recognize">
+                    <form action="#" th:action="@{/recognizeNewer}" th:object="${recognition}" method="post" id="recognize" >
                         <input type="hidden" th:value="${user.getId()}" name="senderId" id="senderId"/>
                         <input type="hidden" th:value="${user.getFullName()}" name="senderName" id="senderName"/>
                         <div class="row">
@@ -93,7 +93,7 @@
                         <input type="hidden"  id="currentUserId" name="currentUserId" th:value="${user.getId()}">
                         <input type="text" id="searchUser" class="form-control form-control-sm"  placeholder="Search" th:field="*{fullName}">
                         <span>
-                             <button class="btn btn-success btn-sm" type="submit">Search</button>
+                             <button id="searchRecognitionButton" class="btn btn-success btn-sm" type="button">Search</button>
                         </span>
                     </form>
                 </div>
