@@ -80,6 +80,56 @@
             })
         })
 
+        $("#today").click(function (e) {
+            ajaxDateSearch("today");
+        })
+
+        $("#yesterday").click(function (e) {
+            ajaxDateSearch("yesterday");
+        })
+
+        $("#last7Days").click(function (e) {
+            ajaxDateSearch("last7Days");
+        })
+        $("#last30Days").click(function (e) {
+            ajaxDateSearch("last30Days");
+        })
+
+        function ajaxDateSearch(dateStr) {
+            $.ajax({
+                type:"GET",
+                url:"/searchRecogByDate/"+dateStr,
+                success: function (data) {
+
+                    $("#userdataDiv").empty();
+                    data.forEach(function (e) {
+                        $("#recognitionResults").show()
+                        $("#userdataDiv").append(
+                            "<strong> " +
+                            e.receiverName +
+                            "</strong> has received a " +
+                            e.badge +
+                            " from " +
+                            e.senderName +
+                            " for " +
+                            e.reason +
+                            " because " +
+                            e.comment +
+                            "<br>" +
+                            " on " + e.date +
+                            "<br>"
+                        )
+                    });
+                },
+                error:function () {
+                    alert("failed");
+                }
+            })
+
+        }
+
+
+
     })
 </script>
 </body>

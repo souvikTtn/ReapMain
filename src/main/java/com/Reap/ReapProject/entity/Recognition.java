@@ -1,8 +1,8 @@
 package com.Reap.ReapProject.entity;
 
+import org.joda.time.LocalDate;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -69,8 +69,7 @@ public class Recognition {
 
     private String badge;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
 
     private String reason;
 
@@ -113,11 +112,11 @@ public class Recognition {
         this.badge = badge;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

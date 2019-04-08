@@ -1,6 +1,8 @@
 package com.Reap.ReapProject.service;
 
 import com.Reap.ReapProject.entity.Recognition;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import com.Reap.ReapProject.entity.User;
 import com.Reap.ReapProject.repository.RecognitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ public class RecognitionService {
     UserService userService;
 
     public void addRecognition(Recognition recognition){
-        recognition.setDate(new Date());
+        recognition.setDate(new LocalDate());
         recognition.setTime(new Date());
 
 
@@ -61,6 +63,31 @@ public class RecognitionService {
 
         public List<Recognition> getListOfRecognitionsByReceiverName(String receiverName){
             return recognitionRepository.findRecognitionByReceiverName(receiverName);
+        }
+
+        public List<Recognition> findRecognitionByDateBetween(String dateString)  {
+            DateTime today=new DateTime();
+            final LocalDate todayDate=today.toLocalDate();
+            final LocalDate yesterday=todayDate.minusDays(1);
+            final LocalDate last7Days=todayDate.minusDays(7);
+            final LocalDate last30Days=todayDate.minusDays(30);
+            if(dateString.equals("today")){
+                //System.out.println(recognitionRepository.findRecognitionByDateBetween(todayDate,todayDate));
+                return recognitionRepository.findRecognitionByDateBetween(todayDate,todayDate);
+            }
+            if (dateString.equals("yesterday")) {
+                //System.out.println(recognitionRepository.findRecognitionByDateBetween(yesterday,todayDate));
+                return recognitionRepository.findRecognitionByDateBetween(yesterday,todayDate);
+            }
+            if (dateString.equals("last7Days")){
+                //System.out.println(recognitionRepository.findRecognitionByDateBetween(last7Days,todayDate));
+                return recognitionRepository.findRecognitionByDateBetween(last7Days,todayDate);
+            }
+            if (dateString.equals("last30Days")){
+                //System.out.println(recognitionRepository.findRecognitionByDateBetween(last30Days,todayDate));
+                return recognitionRepository.findRecognitionByDateBetween(last30Days,todayDate);
+            }
+            return null;
         }
 
 

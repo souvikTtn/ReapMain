@@ -144,6 +144,13 @@ public class UserController {
         return  recognitions;
     }
 
+    @GetMapping("/searchRecogByDate/{date}")
+    @ResponseBody
+    public List<Recognition> getUserRecodByName(@PathVariable("date") String date){
+        List<Recognition> recognitions=recognitionService.findRecognitionByDateBetween(date);
+        return recognitions;
+    }
+
     @PostMapping("/logout")
     public String logout(HttpServletRequest request)
     {
