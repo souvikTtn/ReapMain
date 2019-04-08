@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -67,16 +68,21 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public String getUserById(@PathVariable("id") Integer id, Model model, HttpServletRequest request){
+    public ModelAndView getUserById(@PathVariable("id") Integer id, Model model, HttpServletRequest request,RedirectAttributes redirectAttributes){
         HttpSession session=request.getSession();
         User user1=(User) session.getAttribute("loginUser");
         try {
             if(id!=user1.getId()){
-                return "redirect:/";
+                /*return "redirect:/";*/
+                ModelAndView modelAndView=new ModelAndView("redirect:/");
+                redirectAttributes.addFlashAttribute("loginError","Please login to continue");
+                return modelAndView;
             }
         }
         catch (NullPointerException e){
-            return "redirect:/";
+            ModelAndView modelAndView=new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("loginError","Please login to continue");
+            return modelAndView;
         }
 
 
@@ -94,7 +100,8 @@ public class UserController {
                 List<User> users=userService.getAllUser();
                 model.addAttribute("users",users);
             }
-            return "UserPage";
+            ModelAndView modelAndView=new ModelAndView("UserPage");
+            return modelAndView;
         }
         else throw new UserNotFoundException("no user with the given id exists");
     }
@@ -109,7 +116,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ModelAndView userLogin(@ModelAttribute("loggedUser")LoggedInUser loggedInUser, HttpServletRequest request){
+    public ModelAndView userLogin(@ModelAttribute("loggedUser")LoggedInUser loggedInUser, HttpServletRequest request, RedirectAttributes redirectAttributes){
 
         User user=userService.getUserByEmailAndPassword(loggedInUser.getEmail(),loggedInUser.getPassword());
 
@@ -119,7 +126,9 @@ public class UserController {
             return  new ModelAndView("redirect:/users/"+user.getId());
         }
         else {
-            return new ModelAndView("redirect:/").addObject("loginError","No user with such credentials exists");
+            ModelAndView modelAndView=new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("loginError","Invalid Credentials");
+            return modelAndView;
         }
     }
 

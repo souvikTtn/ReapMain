@@ -12,7 +12,7 @@ public class Item {
     private Integer id;
 
     @Lob
-    private Byte[] image;
+    private String image;
 
     @NotBlank(message = "cannot be a blank field")
     private String name;
@@ -31,11 +31,11 @@ public class Item {
         this.id = id;
     }
 
-    public Byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -61,5 +61,16 @@ public class Item {
 
     public void setPoints(Integer points) {
         this.points = points;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", image='" + image + '\'' +
+                ", name='" + name + '\'' +
+                ", quantity=" + quantity +
+                ", points=" + points +
+                '}';
     }
 }
