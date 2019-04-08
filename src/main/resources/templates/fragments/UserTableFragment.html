@@ -89,7 +89,7 @@
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-trophy"></i> Wall of Fame
-                    <form id="searchRecognition" style="display: inline-block" class="form-inline ml-4" th:object="${searchUser}" th:action="@{/searchRecogByName}" method="post">
+                    <form id="searchRecognition" style="display: inline-block" class="form-inline ml-4" th:object="${searchUser}" th:action="@{/searchRecogByName}">
                         <input type="hidden"  id="currentUserId" name="currentUserId" th:value="${user.getId()}">
                         <input type="text" id="searchUser" class="form-control form-control-sm"  placeholder="Search" th:field="*{fullName}">
                         <span>
