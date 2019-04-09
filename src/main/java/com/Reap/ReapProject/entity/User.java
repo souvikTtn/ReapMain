@@ -20,6 +20,16 @@ public class User {
 
     private String fullName;
 
+    private String resetToken;
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+
     public String getFullName() {
         return fullName;
     }

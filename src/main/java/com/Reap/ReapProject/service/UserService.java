@@ -71,4 +71,15 @@ public class UserService {
        return userRepository.findByFullNameLike(pattern);
     }
 
+    public Optional<User> findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
+    public Optional<User> findByResetToken(String token){
+        return userRepository.findByResetToken(token);
+    }
+
+    public void updateUser(User user){
+        userRepository.save(user);
+    }
 }
