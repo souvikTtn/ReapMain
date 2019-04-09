@@ -95,6 +95,12 @@ public class PasswordController {
             redirectAttributes.addFlashAttribute("error","No User With this Token Exists");
             return modelAndView;
         }
+
+        if(requestParams.get("passwordField").length()<=6){
+            ModelAndView modelAndView=new ModelAndView("redirect:/reset-password?resetToken="+token);
+            redirectAttributes.addFlashAttribute("error","password should be atleast 6 characters long");
+            return modelAndView;
+        }
         else {
             User user1=user.get();
             user1.setPassword(requestParams.get("passwordField"));
