@@ -41,7 +41,7 @@
                     $("#recognitionResults").hide()
                     $("#userdataDiv").empty();
                     data.forEach(function (e) {
-                        $("#recognitionResults").show()
+                        $("#recognitionResults").show();
                         $("#userdataDiv").append(
                             "<strong> " +
                             e.receiverName +
@@ -54,7 +54,7 @@
                             " because " +
                             e.comment +
                             "<br>" +
-                            " on " + e.date +
+                            " on " + e.date.year+"-"+e.date.monthOfYear+"-"+e.date.dayOfMonth +
                             "<br>"
                         )
                     });
@@ -116,7 +116,7 @@
                             " because " +
                             e.comment +
                             "<br>" +
-                            " on " + e.date +
+                            " on " + e.date.year+"-"+e.date.monthOfYear+"-"+e.date.dayOfMonth +
                             "<br>"
                         )
                     });
