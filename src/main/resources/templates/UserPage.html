@@ -127,21 +127,21 @@
             })
         }
 
-        $("#searchUser").keyup(function () {
-            var pattern=$("#searchUser").val()
-            $.ajax({
-                type:'GET',
-                url:"/autoComplete/"+pattern,
-                success:function (data) {
-                    var availableUser=[];
-                    data.forEach(function (e) {
-                        availableUser.push(e.fullName)
-                    })
-                    $( "#searchUser" ).autocomplete({
-                        source: availableUser
-                    });
-                }
-            })
+        $("#searchUser").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    method: 'GET',
+                    url: "/autocomplete",
+                    data: {"pattern": $("#searchUser").val()},
+                    success: function (data) {
+                        var availableUsers = [];
+                        data.forEach(function (e) {
+                            availableUsers.push(e.fullName)
+                        });
+                        response(availableUsers);
+                    }
+                 })
+            }
         })
     })
 </script>

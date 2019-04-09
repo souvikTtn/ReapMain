@@ -151,9 +151,9 @@ public class UserController {
         return recognitions;
     }
 
-    @GetMapping("/autoComplete/{namePattern}")
+    @GetMapping("/autocomplete")
     @ResponseBody
-    public List<User> autoComplete(@PathVariable("namePattern")String namePattern){
+    public List<User> autoComplete(@RequestParam("pattern")String namePattern){
         System.out.println(userService.findByFullNameLike(namePattern+"%"));
         return userService.findByFullNameLike(namePattern+"%");
     }
