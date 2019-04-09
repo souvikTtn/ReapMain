@@ -18,6 +18,7 @@ public class IndexController {
         model.addAttribute("user",user);
         model.addAttribute("loggedUser",new LoggedInUser());
         redirectAttributes.addAttribute("loginError");
+        redirectAttributes.addAttribute("success");
         return "index";
     }
 }

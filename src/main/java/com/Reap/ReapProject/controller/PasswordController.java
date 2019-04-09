@@ -6,6 +6,7 @@ import com.Reap.ReapProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -52,10 +53,16 @@ public class PasswordController {
 
             emailService.sendEmail(passwordResetEmail);
 
-            ModelAndView modelAndView=new ModelAndView("test");
+            ModelAndView modelAndView=new ModelAndView("redirect:/reset-password");
+            redirectAttributes.addFlashAttribute("success","Email sent to "+user.getEmail());
             return modelAndView;
         }
     }
 
-
+    @GetMapping("/reset-password")
+    public ModelAndView showResetPasswordPage(RedirectAttributes redirectAttributes){
+        ModelAndView modelAndView=new ModelAndView("reset-password");
+        redirectAttributes.addFlashAttribute("success");
+        return modelAndView;
+    }
 }
