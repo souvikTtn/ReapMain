@@ -67,4 +67,8 @@ public class UserService {
         return userRepository.findByFullName(fullName);
     }
 
+    public List<User> findByFullNameLike(String pattern){
+       return userRepository.findByFullNameLike(pattern);
+    }
+
 }

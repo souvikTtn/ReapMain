@@ -151,6 +151,13 @@ public class UserController {
         return recognitions;
     }
 
+    @GetMapping("/autoComplete/{namePattern}")
+    @ResponseBody
+    public List<User> autoComplete(@PathVariable("namePattern")String namePattern){
+        System.out.println(userService.findByFullNameLike(namePattern+"%"));
+        return userService.findByFullNameLike(namePattern+"%");
+    }
+
     @PostMapping("/logout")
     public String logout(HttpServletRequest request)
     {

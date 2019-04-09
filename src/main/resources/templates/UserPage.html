@@ -125,12 +125,25 @@
                     alert("failed");
                 }
             })
-
         }
 
-
-
+        $("#searchUser").keyup(function () {
+            var pattern=$("#searchUser").val()
+            $.ajax({
+                type:'GET',
+                url:"/autoComplete/"+pattern,
+                success:function (data) {
+                    var availableUser=[];
+                    data.forEach(function (e) {
+                        availableUser.push(e.fullName)
+                    })
+                    $( "#searchUser" ).autocomplete({
+                        source: availableUser
+                    });
+                }
+            })
+        })
     })
 </script>
-</body>
+</body>()
 </html>
