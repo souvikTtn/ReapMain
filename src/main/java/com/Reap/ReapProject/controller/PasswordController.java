@@ -43,7 +43,6 @@ public class PasswordController {
 
            String url=request.getScheme() + "://" + request.getServerName();
            Integer port=request.getServerPort();
-            System.out.println("port no is "+port);
 
             // Email message
             SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
@@ -88,9 +87,7 @@ public class PasswordController {
     public ModelAndView processResetFrom(HttpServletRequest request, @RequestParam Map<String, String> requestParams, RedirectAttributes redirectAttributes){
         HttpSession session=request.getSession();
         String token=(String) session.getAttribute("userToken");
-        System.out.println(token);
         Optional<User> user=userService.findByResetToken(token);
-        System.out.println(user.get());
 
         if(!user.isPresent()){
             ModelAndView modelAndView=new ModelAndView("redirect:/reset-password?resetToken="+token);
@@ -108,6 +105,7 @@ public class PasswordController {
             user1.setPassword(requestParams.get("passwordField"));
             user1.setResetToken(null);
             userService.updateUser(user1);
+            session.invalidate();
             ModelAndView modelAndView=new ModelAndView("redirect:/");
             redirectAttributes.addFlashAttribute("success","You Have SuccessFully reset your Password.Login With New Password");
             return modelAndView;
