@@ -90,8 +90,8 @@ public class PasswordController {
         Optional<User> user=userService.findByResetToken(token);
 
         if(!user.isPresent()){
-            ModelAndView modelAndView=new ModelAndView("redirect:/reset-password?resetToken="+token);
-            redirectAttributes.addFlashAttribute("error","No User With this Token Exists");
+            ModelAndView modelAndView=new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("loginError","No User With this Token Exists");
             return modelAndView;
         }
 
