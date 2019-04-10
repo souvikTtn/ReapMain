@@ -41,11 +41,19 @@ public class UserController {
 
 
     @PostMapping("/users")
-    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult result,@ModelAttribute("loggedUser")LoggedInUser loggedInUser, @RequestParam("photo") MultipartFile file,HttpServletRequest request){
+    public ModelAndView addUser(@Valid @ModelAttribute("user") User user, BindingResult result,@ModelAttribute("loggedUser")LoggedInUser loggedInUser, @RequestParam("photo") MultipartFile file,HttpServletRequest request,RedirectAttributes redirectAttributes){
         if(result.hasErrors()){
-            return "index";
+            return new ModelAndView("index");
         }
         else {
+                List<String> emails=userService.findAllEmails();
+                //unique email id
+                if(emails.contains(user.getEmail())){
+                    System.out.println("email id already exists");
+                    ModelAndView modelAndView=new ModelAndView("redirect:/");
+                    redirectAttributes.addFlashAttribute("registrationError","Email id already Taken Try a Different One");
+                    return modelAndView;
+                }
             HttpSession session=request.getSession();
             session.setAttribute("loginUser",user);
             try {
@@ -57,7 +65,7 @@ public class UserController {
                 e.printStackTrace();
             }
             userService.addUser(user);
-            return ("redirect:/users/"+user.getId());
+            return new ModelAndView("redirect:/users/"+user.getId());
         }
 
     }

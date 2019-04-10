@@ -1,6 +1,7 @@
 package com.Reap.ReapProject.repository;
 
 import com.Reap.ReapProject.entity.User;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -18,4 +19,9 @@ public interface UserRepository extends CrudRepository<User,Integer> {
     Optional<User> findByEmail(String email);
 
     Optional<User> findByResetToken(String resetToken);
+
+    @Query("SELECT email FROM user")
+    List<String> findAllEmails();
+
+
 }
