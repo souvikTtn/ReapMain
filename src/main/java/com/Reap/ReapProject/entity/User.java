@@ -100,6 +100,8 @@ public class User {
     Integer bronzeRedeemable=0;
 
 
+
+
     public Set<Role> getRoleSet() {
         return roleSet;
     }
@@ -108,7 +110,8 @@ public class User {
         this.roleSet = roleSet;
     }
 
-    @ElementCollection
+    //@OneToMany(mappedBy = "user_role_set")
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Role> roleSet=new HashSet<>(Arrays.asList(Role.USER));
 
