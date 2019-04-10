@@ -1,6 +1,9 @@
 $(document).ready(function (e) {
+
     $("#recognize").submit(function (e) {
         e.preventDefault();
+    });
+    $("#recognize").submit(function (e) {
         var form=$(this);
         $.ajax({
             type:'POST',
@@ -26,7 +29,6 @@ $(document).ready(function (e) {
             url:"/searchRecogByName",
             data:form.serialize(),
             success: function (data) {
-                alert("ajax hit");
                 $("#recognitionResults").hide();
                 $("#userdataDiv").empty();
                 data.forEach(function (e) {

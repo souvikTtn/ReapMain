@@ -68,12 +68,9 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public ModelAndView getUserById(@PathVariable("id") Integer id, Model model, HttpServletRequest request,RedirectAttributes redirectAttributes){
+    public ModelAndView getUserById(@PathVariable("id") Integer id, Model model, HttpServletRequest request,RedirectAttributes redirectAttributes,RedirectAttributes redirectAttributes2){
         HttpSession session=request.getSession();
         User user1=(User) session.getAttribute("loginUser");
-        ModelAndView modelAndView=new ModelAndView("UserPage");
-        redirectAttributes.addAttribute("errorMessage");
-        redirectAttributes.addAttribute("successMessage");
         try {
             if(id!=user1.getId()){
                 /*return "redirect:/";*/
@@ -91,6 +88,9 @@ public class UserController {
 
         Optional<User> user=userService.getUserById(id);
         if(user.isPresent()){
+            ModelAndView modelAndView=new ModelAndView("UserPage");
+            modelAndView.addObject("errorMessage");
+            modelAndView.addObject("successMessage");
             model.addAttribute("user",user.get());
             model.addAttribute("recognition",new Recognition());
             model.addAttribute("searchUser",new SearchUser());

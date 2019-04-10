@@ -25,10 +25,10 @@ public class RecognitionController {
 
         //setting up the receiver id
 
-             String recieverName=recognition.getReceiverName();
-             User user=userService.getUserByFullName(recieverName);
+             String receiverName=recognition.getReceiverName();
+             User user=userService.getUserByFullName(receiverName);
              if(user==null){
-                 System.out.println("user doesnot exists so cannot be recognized");
+                 System.out.println("user does not exists so cannot be recognized");
                  ModelAndView modelAndView=new ModelAndView("redirect:/users/"+recognition.getSenderId());
                  redirectAttributes.addFlashAttribute("errorMessage","No such User");
                  return modelAndView;
