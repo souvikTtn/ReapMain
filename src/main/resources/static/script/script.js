@@ -16,15 +16,18 @@ $(document).ready(function (e) {
         })
     })
 
-
-    $("#searchRecognitionButton").click(function () {
-        var form=$("#searchRecognition")
+    $("#searchRecognition").submit(function (e) {
+        e.preventDefault();
+    });
+    $("#searchRecognition").submit(function (e) {
+        var form=$("#searchRecognition");
         $.ajax({
             type:'POST',
             url:"/searchRecogByName",
             data:form.serialize(),
             success: function (data) {
-                $("#recognitionResults").hide()
+                alert("ajax hit");
+                $("#recognitionResults").hide();
                 $("#userdataDiv").empty();
                 data.forEach(function (e) {
                     $("#recognitionResults").show();
@@ -50,8 +53,7 @@ $(document).ready(function (e) {
                 alert("failed");
             }
         })
-    })
-
+    });
     $("#logout").click(function (e) {
         e.preventDefault();
         $.ajax({
