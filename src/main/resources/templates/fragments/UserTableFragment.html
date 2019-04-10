@@ -104,6 +104,13 @@
                 </div>
             </div>
             <!-- -->
+
+            <!--csv download-->
+            <div th:if="${isAdmin}">
+                <p><a href="/downloadCsv">Download CSV</a></p>
+            </div>
+
+
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-trophy"></i> Wall of Fame
