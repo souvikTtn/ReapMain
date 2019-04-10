@@ -105,10 +105,7 @@
             </div>
             <!-- -->
 
-            <!--csv download-->
-            <div th:if="${isAdmin}">
-                <p><a href="/downloadCsv">Download CSV</a></p>
-            </div>
+
 
 
             <div class="card mb-3">
@@ -138,6 +135,10 @@
                 <div style="display: none" id="recognitionResults"
                      class="alert alert-success fade show" role="alert">
                     <h4 class="alert-heading">Search results</h4>
+                    <!--csv download-->
+                    <div th:if="${isAdmin}">
+                        <p><a href="/downloadCsv">Download CSV</a></p>
+                    </div>
                     <hr>
                     <div class="row newer-row align-items-center">
                         <div class="col-sm-2 text-center">

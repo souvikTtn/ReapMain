@@ -14,4 +14,6 @@ public interface RecognitionRepository extends CrudRepository<Recognition,Intege
     List<Recognition> findRecognitionByReceiverName(String receiverName);
 
     List<Recognition> findRecognitionByDateBetween(LocalDate startDate,LocalDate endDate);
+
+    List<Recognition> findRecognitionByDate(LocalDate date);
 }

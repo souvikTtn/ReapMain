@@ -77,7 +77,7 @@ public class RecognitionService {
             }
             if (dateString.equals("yesterday")) {
                 //System.out.println(recognitionRepository.findRecognitionByDateBetween(yesterday,todayDate));
-                return recognitionRepository.findRecognitionByDateBetween(yesterday,todayDate);
+                return recognitionRepository.findRecognitionByDate(yesterday);
             }
             if (dateString.equals("last7Days")){
                 //System.out.println(recognitionRepository.findRecognitionByDateBetween(last7Days,todayDate));

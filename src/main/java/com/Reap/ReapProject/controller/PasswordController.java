@@ -77,7 +77,7 @@ public class PasswordController {
         }
         catch (NullPointerException e){
             ModelAndView modelAndView1=new ModelAndView("redirect:/");
-            redirectAttributes.addFlashAttribute("loginError","UnAuthorized Access");
+            redirectAttributes.addFlashAttribute("loginError","Invalid Token");
             return modelAndView1;
         }
         return modelAndView;
@@ -88,7 +88,6 @@ public class PasswordController {
         HttpSession session=request.getSession();
         String token=(String) session.getAttribute("userToken");
         Optional<User> user=userService.findByResetToken(token);
-
         if(!user.isPresent()){
             ModelAndView modelAndView=new ModelAndView("redirect:/");
             redirectAttributes.addFlashAttribute("loginError","No User With this Token Exists");
