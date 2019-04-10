@@ -42,6 +42,8 @@ public class PasswordController {
             userService.updateUser(user);
 
            String url=request.getScheme() + "://" + request.getServerName();
+           Integer port=request.getServerPort();
+            System.out.println("port no is "+port);
 
             // Email message
             SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
@@ -49,7 +51,7 @@ public class PasswordController {
             passwordResetEmail.setTo(user.getEmail());
             passwordResetEmail.setSubject("Password Reset Request");
             passwordResetEmail.setText("To reset your password, click the link below:\n" + url
-                    + ":8080/reset-password?resetToken=" + user.getResetToken());
+                    + ":"+port+"/reset-password?resetToken=" + user.getResetToken());
 
             emailService.sendEmail(passwordResetEmail);
 
