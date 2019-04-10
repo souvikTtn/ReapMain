@@ -118,9 +118,9 @@
                              <button id="searchRecognitionButton" class="btn btn-success btn-sm" type="button">Search</button>
                         </span>
                     </form>
-                    <span class="float-right dropdown" >
+                    <span class="dropdown" >
                         <a href="#" role="button" id="dateDropdownLink" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
+                        aria-expanded="false" class="mx-1">
                             <i class="far fa-calendar-alt"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dateDropdownLink" id="dateSearch">
@@ -130,15 +130,26 @@
                                 <a id="last30Days" class="dropdown-item" style="text-transform: initial;">Last 30 days</a>
                         </div>
                     </span>
+
+                    <span class="dropdown" th:if="${isAdmin}">
+                        <a href="#" role="button" id="downloadDropdownLink" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false" class="mx-1" title="Download CSV">
+                            <i class="far fa-save"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dateDropdownLinkCsv">
+                                <a id="downloadToday" th:href="@{/downloadCsv/today}" class="dropdown-item" style="text-transform: initial;">Today</a>
+                                <a id="downloadYesterday" th:href="@{/downloadCsv/yesterday}" class="dropdown-item" style="text-transform: initial;">Yesterday</a>
+                                <a id="downloadLast7Days" th:href="@{/downloadCsv/last7Days}" class="dropdown-item" style="text-transform: initial;">Last 7 days</a>
+                                <a id="downloadlast30Days" th:href="@{/downloadCsv/last30Days}" class="dropdown-item" style="text-transform: initial;">Last 30 days</a>
+                        </div>
+                    </span>
+
+
                 </div>
 
                 <div style="display: none" id="recognitionResults"
                      class="alert alert-success fade show" role="alert">
                     <h4 class="alert-heading">Search results</h4>
-                    <!--csv download-->
-                    <div th:if="${isAdmin}">
-                        <p><a href="/downloadCsv">Download CSV</a></p>
-                    </div>
                     <hr>
                     <div class="row newer-row align-items-center">
                         <div class="col-sm-2 text-center">

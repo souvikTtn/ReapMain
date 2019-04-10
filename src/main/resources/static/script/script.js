@@ -66,6 +66,7 @@ $(document).ready(function (e) {
         })
     })
 
+    //for search by date and display
     $("#today").click(function (e) {
         ajaxDateSearch("today");
     })
