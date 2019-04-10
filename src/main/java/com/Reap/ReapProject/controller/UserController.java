@@ -71,18 +71,21 @@ public class UserController {
     public ModelAndView getUserById(@PathVariable("id") Integer id, Model model, HttpServletRequest request,RedirectAttributes redirectAttributes){
         HttpSession session=request.getSession();
         User user1=(User) session.getAttribute("loginUser");
+        ModelAndView modelAndView=new ModelAndView("UserPage");
+        redirectAttributes.addAttribute("errorMessage");
+        redirectAttributes.addAttribute("successMessage");
         try {
             if(id!=user1.getId()){
                 /*return "redirect:/";*/
-                ModelAndView modelAndView=new ModelAndView("redirect:/");
+                ModelAndView modelAndView1=new ModelAndView("redirect:/");
                 redirectAttributes.addFlashAttribute("loginError","Please login to continue");
-                return modelAndView;
+                return modelAndView1;
             }
         }
         catch (NullPointerException e){
-            ModelAndView modelAndView=new ModelAndView("redirect:/");
+            ModelAndView modelAndView1=new ModelAndView("redirect:/");
             redirectAttributes.addFlashAttribute("loginError","Please login to continue");
-            return modelAndView;
+            return modelAndView1;
         }
 
 
@@ -100,7 +103,6 @@ public class UserController {
                 List<User> users=userService.getAllUser();
                 model.addAttribute("users",users);
             }
-            ModelAndView modelAndView=new ModelAndView("UserPage");
             return modelAndView;
         }
         else throw new UserNotFoundException("no user with the given id exists");

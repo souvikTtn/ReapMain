@@ -7,6 +7,8 @@ import com.Reap.ReapProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -19,12 +21,20 @@ public class RecognitionController {
     UserService userService;
 
     @PostMapping("/recognizeNewer")
-    public String recognizeUser(@ModelAttribute("recognition") Recognition recognition){
+    public ModelAndView recognizeUser(@ModelAttribute("recognition") Recognition recognition, RedirectAttributes redirectAttributes){
 
         //setting up the receiver id
 
              String recieverName=recognition.getReceiverName();
              User user=userService.getUserByFullName(recieverName);
+
+             if(user.getId().equals(recognition.getSenderId())){
+                 System.out.println("user cannot recognize himself");
+                 ModelAndView modelAndView=new ModelAndView("redirect:/users/"+recognition.getSenderId());
+                 redirectAttributes.addFlashAttribute("errorMessage","User Can't recognize Himself");
+                 return modelAndView;
+             }
+
              recognition.setReceiverId(user.getId());
              recognitionService.addRecognition(recognition);
              User receiver=userService.getUserById(recognition.getReceiverId()).get();
@@ -37,7 +47,8 @@ public class RecognitionController {
              recognitionService.updateRecognistion(recognition);
 
 
-             
-            return "redirect:/users/"+recognition.getSenderId();
+             ModelAndView modelAndView=new ModelAndView("redirect:/users/"+recognition.getSenderId());
+             redirectAttributes.addFlashAttribute("successMessage","Newer Successfully Recognized");
+             return modelAndView;
     }
 }

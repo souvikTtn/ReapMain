@@ -130,6 +130,23 @@ $(document).ready(function (e) {
         }
     });
 
+    $("#recognizeNewerSearch").autocomplete({
+        source:function (request,response) {
+            $.ajax({
+                method:"GET",
+                url:"/autocomplete",
+                data: {"pattern": $("#recognizeNewerSearch").val()},
+                success:function (data) {
+                    var availableUsers=[];
+                    data.forEach(function (e) {
+                        availableUsers.push(e.fullName)
+
+                    });
+                    response(availableUsers);
+                }
+            })
+        }
+    });
     $('input[type="file"]').change(function(e){
         var fileName = e.target.files[0].name;
         $("#fileSelector").text(fileName)
