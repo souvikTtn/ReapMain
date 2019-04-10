@@ -120,7 +120,7 @@ public class UserController {
     @PostMapping("/login")
     public ModelAndView userLogin(@ModelAttribute("loggedUser")LoggedInUser loggedInUser, HttpServletRequest request, RedirectAttributes redirectAttributes){
 
-        User user=userService.getUserByEmailAndPassword(loggedInUser.getEmail(),loggedInUser.getPassword());
+        User user=userService.getUserByEmailAndPasswordAndActive(loggedInUser.getEmail(),loggedInUser.getPassword());
 
         if(user!=null){
             HttpSession session=request.getSession();
