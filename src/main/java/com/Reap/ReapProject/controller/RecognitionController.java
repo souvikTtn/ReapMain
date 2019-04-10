@@ -27,6 +27,12 @@ public class RecognitionController {
 
              String recieverName=recognition.getReceiverName();
              User user=userService.getUserByFullName(recieverName);
+             if(user==null){
+                 System.out.println("user doesnot exists so cannot be recognized");
+                 ModelAndView modelAndView=new ModelAndView("redirect:/users/"+recognition.getSenderId());
+                 redirectAttributes.addFlashAttribute("errorMessage","No such User");
+                 return modelAndView;
+             }
 
              if(user.getId().equals(recognition.getSenderId())){
                  System.out.println("user cannot recognize himself");

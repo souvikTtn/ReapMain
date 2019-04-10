@@ -25,10 +25,10 @@ public class CsvController {
         List<Recognition> recognitions=recognitionService.getListOfRecognitions();
 
         ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
-                CsvPreference.STANDARD_PREFERENCE);
+                CsvPreference.EXCEL_PREFERENCE);
 
         String[] header = { "id", "badge", "comment", "date",
-                "reason", "receiverId", "receiverName","senderId","senderName" };
+                "reason", "receiverId", "receiverName","senderId","senderName","goldRedeemable","silverRedeemable","bronzeRedeemable" };
 
         csvWriter.writeHeader(header);
         for (Recognition recognition:recognitions){
