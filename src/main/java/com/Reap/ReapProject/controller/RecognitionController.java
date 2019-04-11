@@ -2,16 +2,21 @@ package com.Reap.ReapProject.controller;
 
 import com.Reap.ReapProject.entity.Recognition;
 import com.Reap.ReapProject.entity.User;
+import com.Reap.ReapProject.exception.UnauthorisedAccessException;
 import com.Reap.ReapProject.service.RecognitionService;
 import com.Reap.ReapProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import java.util.List;
 
 
@@ -25,24 +30,25 @@ public class RecognitionController {
     UserService userService;
 
     @PostMapping("/recognizeNewer")
-    public ModelAndView recognizeUser(@ModelAttribute("recognition") Recognition recognition, RedirectAttributes redirectAttributes){
+    public ResponseEntity<String> recognizeUser(@ModelAttribute("recognition") Recognition recognition,HttpServletRequest request){
 
         //setting up the receiver id
+
+            HttpSession session=request.getSession();
+            if(session==null){
+                throw new UnauthorisedAccessException("Unauthorized Access");
+            }
 
              String receiverName=recognition.getReceiverName();
              User user=userService.getUserByFullName(receiverName);
              if(user==null){
                  System.out.println("user does not exists so cannot be recognized");
-                 ModelAndView modelAndView=new ModelAndView("redirect:/users/"+recognition.getSenderId());
-                 redirectAttributes.addAttribute("errorMessage","No such User");
-                 return modelAndView;
+                 return new ResponseEntity<String>("User Does Not Exists",HttpStatus.OK);
              }
 
              if(user.getId().equals(recognition.getSenderId())){
                  System.out.println("user cannot recognize himself");
-                 ModelAndView modelAndView=new ModelAndView("redirect:/users/"+recognition.getSenderId());
-                 redirectAttributes.addAttribute("errorMessage","User Can't recognize Himself");
-                 return modelAndView;
+                 return new ResponseEntity<String>("User Cant recognize Himself",HttpStatus.OK);
              }
 
              recognition.setReceiverId(user.getId());
@@ -57,9 +63,9 @@ public class RecognitionController {
              recognitionService.updateRecognistion(recognition);
 
 
-             ModelAndView modelAndView=new ModelAndView("redirect:/users/"+recognition.getSenderId());
-             redirectAttributes.addAttribute("successMessage","Newer Successfully Recognized");
-             return modelAndView;
+        HttpHeaders httpHeaders=new HttpHeaders();
+        httpHeaders.set("MyResponseHeader","MyResponseValue");
+        return new ResponseEntity<String>("User Successfully Recognized",httpHeaders, HttpStatus.CREATED);
     }
 
 

@@ -11,6 +11,7 @@ $(document).ready(function (e) {
             data:form.serialize(),
             success:function (data) {
                // document.write(data);
+                alert(data);
                 window.location.reload();
             },
             error:function (data) {
