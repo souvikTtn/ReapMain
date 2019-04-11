@@ -10,7 +10,7 @@ $(document).ready(function (e) {
             url:'/recognizeNewer',
             data:form.serialize(),
             success:function (data) {
-                //document.write(data);
+               // document.write(data);
                 window.location.reload();
             },
             error:function (data) {

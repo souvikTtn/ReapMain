@@ -30,14 +30,14 @@ public class RecognitionController {
              if(user==null){
                  System.out.println("user does not exists so cannot be recognized");
                  ModelAndView modelAndView=new ModelAndView("redirect:/users/"+recognition.getSenderId());
-                 redirectAttributes.addFlashAttribute("errorMessage","No such User");
+                 redirectAttributes.addAttribute("errorMessage","No such User");
                  return modelAndView;
              }
 
              if(user.getId().equals(recognition.getSenderId())){
                  System.out.println("user cannot recognize himself");
                  ModelAndView modelAndView=new ModelAndView("redirect:/users/"+recognition.getSenderId());
-                 redirectAttributes.addFlashAttribute("errorMessage","User Can't recognize Himself");
+                 redirectAttributes.addAttribute("errorMessage","User Can't recognize Himself");
                  return modelAndView;
              }
 
@@ -54,7 +54,7 @@ public class RecognitionController {
 
 
              ModelAndView modelAndView=new ModelAndView("redirect:/users/"+recognition.getSenderId());
-             redirectAttributes.addFlashAttribute("successMessage","Newer Successfully Recognized");
+             redirectAttributes.addAttribute("successMessage","Newer Successfully Recognized");
              return modelAndView;
     }
 }

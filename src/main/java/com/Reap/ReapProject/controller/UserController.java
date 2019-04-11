@@ -81,7 +81,6 @@ public class UserController {
         User user1=(User) session.getAttribute("loginUser");
         try {
             if(id!=user1.getId()){
-                /*return "redirect:/";*/
                 ModelAndView modelAndView1=new ModelAndView("redirect:/");
                 redirectAttributes.addFlashAttribute("loginError","Please login to continue");
                 return modelAndView1;
@@ -97,8 +96,6 @@ public class UserController {
         Optional<User> user=userService.getUserById(id);
         if(user.isPresent()){
             ModelAndView modelAndView=new ModelAndView("UserPage");
-            modelAndView.addObject("errorMessage");
-            modelAndView.addObject("successMessage");
             model.addAttribute("user",user.get());
             model.addAttribute("recognition",new Recognition());
             model.addAttribute("searchUser",new SearchUser());
