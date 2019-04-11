@@ -51,14 +51,32 @@
                                     </option>
                                     </span>
 
+                                    <span th:if="${user.getGoldSharable() == 0}">
+                                    <option data-thumbnail="/images/gold.png" value="gold" disabled>Gold
+                                        <small th:text="'('+${user.getGoldSharable()}+')'"></small>
+                                    </option>
+                                    </span>
+
                                     <span th:if="${user.getSilverSharable() > 0}">
                                     <option data-thumbnail="/images/silver.png" value="silver">Silver
                                         <small th:text="'('+${user.getSilverSharable()}+')'"></small>
                                     </option>
                                     </span>
 
+                                    <span th:if="${user.getSilverSharable() == 0}">
+                                    <option data-thumbnail="/images/silver.png" value="silver" disabled>Silver
+                                        <small th:text="'('+${user.getSilverSharable()}+')'"></small>
+                                    </option>
+                                    </span>
+
                                     <span th:if="${user.getBronzeSharable() > 0}">
-                                    <option data-thumbnail="/images/bronze.png" value="bronze">Bronze
+                                    <option data-thumbnail="/images/bronze.png" value="bronze" >Bronze
+                                        <small th:text="'('+${user.getBronzeSharable()}+')'"></small>
+                                    </option>
+                                    </span>
+
+                                    <span th:if="${user.getBronzeSharable() == 0}">
+                                    <option data-thumbnail="/images/bronze.png" value="bronze" disabled>Bronze
                                         <small th:text="'('+${user.getBronzeSharable()}+')'"></small>
                                     </option>
                                     </span>
