@@ -91,5 +91,15 @@ public class RecognitionService {
         }
 
 
+        public List<Recognition> findRecognitionBySenderId(Integer senderId){
+                return recognitionRepository.findRecognitionBySenderId(senderId);
+        }
+
+        public  List<Recognition> findRecognitionByReceiverId(Integer receiverId){
+            return recognitionRepository.findRecognitionByReceiverId(receiverId);
+        }
+
+
+
     }
 

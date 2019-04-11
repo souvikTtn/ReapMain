@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.List;
+
 
 @Controller
 public class RecognitionController {
@@ -57,4 +61,23 @@ public class RecognitionController {
              redirectAttributes.addAttribute("successMessage","Newer Successfully Recognized");
              return modelAndView;
     }
+
+
+    @GetMapping("/sharedRecognitions/{id}")
+    public List<Recognition> userSharedRecognitions(@PathVariable("id") Integer id, HttpServletRequest request){
+       /* HttpSession session=request.getSession();
+        User user=(User) session.getAttribute("loginUser");
+        System.out.println(user);*/
+        return recognitionService.findRecognitionBySenderId(id);
+    }
+
+    @GetMapping("/receivedRecognitions/{id}")
+    public List<Recognition> userReceivedRecognitions(@PathVariable("id") Integer id,HttpServletRequest request){
+        /*HttpSession session=request.getSession();
+        User user=(User) session.getAttribute("loginUser");
+        System.out.println(user);*/
+
+        return recognitionService.findRecognitionByReceiverId(id);
+    }
+
 }
