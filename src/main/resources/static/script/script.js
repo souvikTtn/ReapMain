@@ -9,16 +9,40 @@ $(document).ready(function (e) {
             type:'POST',
             url:'/recognizeNewer',
             data:form.serialize(),
-            success:function (data) {
-               // document.write(data);
-                alert(data);
-                window.location.reload();
+            success:function (data,status,xhr) {
+                setTimeout(location.reload.bind(location), 5000);
+                var x=xhr.getResponseHeader("MyResponseHeader");
+                if(x==="notExist"){
+                   $("#errorAlert").append(data);
+                   $("#errorAlert").show();
+                }
+                if(x==="selfRecognition"){
+                    $("#selfRecogAlert").append(data);
+                    $("#selfRecogAlert").show();
+                }
+                if(x==="successful"){
+                    $("#successAlert").append(data);
+                    $("#successAlert").show();
+                }
+
             },
             error:function (data) {
                 alert("failed")
             }
         })
-    })
+    });
+
+    $("#successAlert").click(function () {
+       window.location.reload();
+    });
+
+    $("#errorAlert").click(function () {
+        window.location.reload();
+    });
+
+    $("#selfRecogAlert").click(function () {
+        window.location.reload();
+    });
 
     $("#searchRecognition").submit(function (e) {
         e.preventDefault();

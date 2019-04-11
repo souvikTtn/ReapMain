@@ -42,13 +42,15 @@ public class RecognitionController {
              String receiverName=recognition.getReceiverName();
              User user=userService.getUserByFullName(receiverName);
              if(user==null){
-                 System.out.println("user does not exists so cannot be recognized");
-                 return new ResponseEntity<String>("User Does Not Exists",HttpStatus.OK);
+                 HttpHeaders httpHeaders=new HttpHeaders();
+                 httpHeaders.set("MyResponseHeader","notExist");
+                 return new ResponseEntity<String>("User Does Not Exists click to continue",httpHeaders,HttpStatus.OK);
              }
 
              if(user.getId().equals(recognition.getSenderId())){
-                 System.out.println("user cannot recognize himself");
-                 return new ResponseEntity<String>("User Cant recognize Himself",HttpStatus.OK);
+                 HttpHeaders httpHeaders=new HttpHeaders();
+                 httpHeaders.set("MyResponseHeader","selfRecognition");
+                 return new ResponseEntity<String>("User Cant recognize Himself click to continue",httpHeaders,HttpStatus.OK);
              }
 
              recognition.setReceiverId(user.getId());
@@ -64,8 +66,8 @@ public class RecognitionController {
 
 
         HttpHeaders httpHeaders=new HttpHeaders();
-        httpHeaders.set("MyResponseHeader","MyResponseValue");
-        return new ResponseEntity<String>("User Successfully Recognized",httpHeaders, HttpStatus.CREATED);
+        httpHeaders.set("MyResponseHeader","successful");
+        return new ResponseEntity<String>("User Successfully Recognized click to continue",httpHeaders, HttpStatus.CREATED);
     }
 
 

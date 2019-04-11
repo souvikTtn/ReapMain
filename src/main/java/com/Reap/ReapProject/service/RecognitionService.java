@@ -104,7 +104,6 @@ public class RecognitionService {
             return null;
         }
 
-
         public List<Recognition> findRecognitionBySenderId(Integer senderId){
                 return recognitionRepository.findRecognitionBySenderId(senderId);
         }
@@ -112,8 +111,5 @@ public class RecognitionService {
         public  List<Recognition> findRecognitionByReceiverId(Integer receiverId){
             return recognitionRepository.findRecognitionByReceiverId(receiverId);
         }
-
-
-
     }
 
