@@ -37,7 +37,7 @@ public class UserController {
     RecognitionService recognitionService;
 
     //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "/home/joyy/Documents/Reap/ReapProject/src/main/resources/static/userImages/";
+    /*private static String UPLOADED_FOLDER = "/home/joyy/Documents/Reap/ReapProject/out/production/resources/static/images/userImages/";*/
 
 
     @PostMapping("/users")
@@ -57,18 +57,24 @@ public class UserController {
             HttpSession session=request.getSession();
             session.setAttribute("loginUser",user);
             try {
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-                Files.write(path, bytes);
-                user.setImage(path.toString());
+                String path=saveImagePath(file);
+                user.setImage(path);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             userService.addUser(user);
             return new ModelAndView("redirect:/users/"+user.getId());
         }
-
     }
+
+    public String saveImagePath(MultipartFile file) throws IOException {
+        String UPLOADED_FOLDER = "/home/joyy/Documents/Reap/ReapProject/out/production/resources/static/images/userImages/";
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+                Files.write(path, bytes);
+                return "/images/userImages/"+file.getOriginalFilename();
+    }
+
 
     @GetMapping("/users")
     public List<User> getAllUsers(){

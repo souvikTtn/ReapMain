@@ -47,7 +47,8 @@
                     <hr/>
                     <div class="row no-gutters">
                         <div class="col-md-4 text-center">
-                            <i style="font-size: 5em;" class="far fa-user-circle"></i>
+                          <!--  <i style="font-size: 5em;" class="far fa-user-circle" th:src="@{''+${user.getImage()}}"></i>-->
+                            <img style="height: 8em;width: 8em;" th:src="@{''+${user.getImage()}}" class="img-circle">
                         </div>
                         <div class="col-md-8">
                             <div class="row">
