@@ -76,20 +76,20 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public ModelAndView getUserById(@PathVariable("id") Integer id, Model model, HttpServletRequest request,RedirectAttributes redirectAttributes,RedirectAttributes redirectAttributes2){
+    public ModelAndView getUserById(@PathVariable("id") Integer id, Model model, HttpServletRequest request,RedirectAttributes redirectAttributes){
         HttpSession session=request.getSession();
         User user1=(User) session.getAttribute("loginUser");
         try {
-            if(id!=user1.getId()){
-                ModelAndView modelAndView1=new ModelAndView("redirect:/");
+            if(!id.equals(user1.getId())){
+                ModelAndView modelAndView=new ModelAndView("redirect:/");
                 redirectAttributes.addFlashAttribute("loginError","Please login to continue");
-                return modelAndView1;
+                return modelAndView;
             }
         }
         catch (NullPointerException e){
-            ModelAndView modelAndView1=new ModelAndView("redirect:/");
+            ModelAndView modelAndView=new ModelAndView("redirect:/");
             redirectAttributes.addFlashAttribute("loginError","Please login to continue");
-            return modelAndView1;
+            return modelAndView;
         }
 
 
