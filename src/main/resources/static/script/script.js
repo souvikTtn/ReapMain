@@ -183,7 +183,22 @@ $(document).ready(function (e) {
 
     });
 
-    $("#")
-
-
+    $(".revokeRecognitionButtonClass").click(function () {
+        var answer=confirm("Are you sure you want to revoke this recognition");
+        if(answer==true){
+            console.log($(this).closest(".recognitionIdClass").find("input[name='recognitionIdToRevoke']").val());
+            var id=$(this).closest(".recognitionIdClass").find("input[name='recognitionIdToRevoke']").val();
+            $.ajax({
+                method:"PUT",
+                url:"/revokeBadges/"+id,
+                success:function (data) {
+                    console.log("sucess")
+                    alert("revoked badge sucessfully");
+                }
+            })
+        }
+        else {
+            console.log("revoke");
+        }
+    })
 })

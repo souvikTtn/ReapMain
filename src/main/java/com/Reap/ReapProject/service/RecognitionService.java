@@ -112,5 +112,13 @@ public class RecognitionService {
         public  List<Recognition> findRecognitionByReceiverId(Integer receiverId){
             return recognitionRepository.findRecognitionByReceiverId(receiverId);
         }
+
+        public Optional<Recognition> findRecognitionById(Integer id){
+            return recognitionRepository.findRecognitionById(id);
+        }
+
+        public void revokeRecognition(Recognition recognition){
+            recognitionRepository.save(recognition);
+        }
     }
 

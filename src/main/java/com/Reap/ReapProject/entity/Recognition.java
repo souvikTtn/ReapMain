@@ -21,6 +21,35 @@ public class Recognition {
 
     private String senderName;
 
+    private Boolean revoked=false;
+
+    @Override
+    public String toString() {
+        return "Recognition{" +
+                "id=" + id +
+                ", senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                ", receiverName='" + receiverName + '\'' +
+                ", senderName='" + senderName + '\'' +
+                ", revoked=" + revoked +
+                ", goldRedeemable=" + goldRedeemable +
+                ", silverRedeemable=" + silverRedeemable +
+                ", bronzeRedeemable=" + bronzeRedeemable +
+                ", badge='" + badge + '\'' +
+                ", date=" + date +
+                ", reason='" + reason + '\'' +
+                ", comment='" + comment + '\'' +
+                ", time=" + time +
+                '}';
+    }
+
+    public Boolean getRevoked() {
+        return revoked;
+    }
+
+    public void setRevoked(Boolean revoked) {
+        this.revoked = revoked;
+    }
 
     //these fields are added just to render the badges in thymeleaf page
     private Integer goldRedeemable;
@@ -130,22 +159,6 @@ public class Recognition {
 
     public String getComment() {
         return comment;
-    }
-
-    @Override
-    public String toString() {
-        return "Recognition{" +
-                "id=" + id +
-                ", senderId=" + senderId +
-                ", receiverId=" + receiverId +
-                ", receiverName='" + receiverName + '\'' +
-                ", senderName='" + senderName + '\'' +
-                ", badge='" + badge + '\'' +
-                ", date=" + date +
-                ", reason='" + reason + '\'' +
-                ", comment='" + comment + '\'' +
-                ", time=" + time +
-                '}';
     }
 
     public void setComment(String comment) {

@@ -3,12 +3,15 @@ package com.Reap.ReapProject.controller;
 import com.Reap.ReapProject.entity.Recognition;
 import com.Reap.ReapProject.entity.User;
 import com.Reap.ReapProject.exception.UnauthorisedAccessException;
+import com.Reap.ReapProject.repository.UserRepository;
+import com.Reap.ReapProject.service.EmailService;
 import com.Reap.ReapProject.service.RecognitionService;
 import com.Reap.ReapProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +31,12 @@ public class RecognitionController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    EmailService emailService;
 
     @PostMapping("/recognizeNewer")
     public ResponseEntity<String> recognizeUser(@ModelAttribute("recognition") Recognition recognition,HttpServletRequest request){
@@ -88,4 +97,21 @@ public class RecognitionController {
         return recognitionService.findRecognitionByReceiverId(id);
     }
 
+    @PutMapping("/revokeBadges/{id}")
+    @ResponseBody
+    public void revokeBadge(@PathVariable("id")String id){
+        Integer recognitionId=Integer.parseInt(id);
+        Recognition recognition=recognitionService.findRecognitionById(recognitionId).get();
+        recognition.setRevoked(true);
+        recognitionService.revokeRecognition(recognition);
+
+        Integer receiverId=recognition.getReceiverId();
+        User user=userRepository.findById(receiverId).get();
+        SimpleMailMessage badgeRevokedMail = new SimpleMailMessage();
+        badgeRevokedMail.setFrom("support@demo.com");
+        badgeRevokedMail.setTo(user.getEmail());
+        badgeRevokedMail.setSubject("Badge Revoked");
+        badgeRevokedMail.setText("dear User Your Recognition "+recognition+" has been revoked");
+        emailService.sendEmail(badgeRevokedMail);
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import org.joda.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RecognitionRepository extends CrudRepository<Recognition,Integer> {
@@ -20,5 +21,7 @@ public interface RecognitionRepository extends CrudRepository<Recognition,Intege
     List<Recognition> findRecognitionBySenderId(Integer senderId);
 
     List<Recognition> findRecognitionByReceiverId(Integer receiverId);
+
+    Optional<Recognition> findRecognitionById(Integer id);
 
 }
