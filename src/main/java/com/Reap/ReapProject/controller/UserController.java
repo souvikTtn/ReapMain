@@ -5,6 +5,7 @@ import com.Reap.ReapProject.component.SearchUser;
 import com.Reap.ReapProject.entity.Recognition;
 import com.Reap.ReapProject.entity.Role;
 import com.Reap.ReapProject.entity.User;
+import com.Reap.ReapProject.exception.UnauthorisedAccessException;
 import com.Reap.ReapProject.exception.UserNotFoundException;
 import com.Reap.ReapProject.service.RecognitionService;
 import com.Reap.ReapProject.service.UserService;
@@ -24,9 +25,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class UserController {
@@ -84,12 +83,14 @@ public class UserController {
         User user1=(User) session.getAttribute("loginUser");
         try {
             if(!id.equals(user1.getId())){
+                System.out.println("id differs");
                 ModelAndView modelAndView=new ModelAndView("redirect:/");
                 redirectAttributes.addFlashAttribute("loginError","Please login to continue");
                 return modelAndView;
             }
         }
         catch (NullPointerException e){
+            System.out.println("null pointer");
             ModelAndView modelAndView=new ModelAndView("redirect:/");
             redirectAttributes.addFlashAttribute("loginError","Please login to continue");
             return modelAndView;
@@ -116,11 +117,39 @@ public class UserController {
         else throw new UserNotFoundException("no user with the given id exists");
     }
 
+
+    //this path variable id is coming from form and differs from session id
     @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable Integer id,@RequestBody @Valid User user){
+    public ModelAndView updateUser(@PathVariable Integer id,@RequestParam Map<String, String> requestParams,HttpServletRequest request){
+        HttpSession session=request.getSession();
+        User loggedUser=(User)session.getAttribute("loginUser");
+
+        if(session==null){
+            throw new UnauthorisedAccessException("Unauthorized Access");
+        }
+
+        System.out.println("path variable id "+id);
+        System.out.println("session id "+loggedUser.getId());
         Optional<User> user1=userService.getUserById(id);
         if(user1.isPresent()){
-            return userService.addUser(user);
+            //updating users active status
+            if(requestParams.get("active")==null){
+                user1.get().setActive(false);
+            }
+             else {
+                user1.get().setActive(true);
+            }
+
+            Set<Role> roles=user1.get().getRoleSet();
+            roles=roleChecker(roles,requestParams.get("adminCheck"),Role.ADMIN);
+            roles=roleChecker(roles,requestParams.get("practiceHeadCheck"),Role.PRACTICE_HEAD);
+            roles=roleChecker(roles,requestParams.get("supervisorCheck"),Role.SUPERVISOR);
+            roles=roleChecker(roles,requestParams.get("userCheck"),Role.USER);
+
+            user1.get().setRoleSet(roles);
+            userService.adminEditUser(user1.get());
+            ModelAndView modelAndView=new ModelAndView("redirect:/users/"+loggedUser.getId());
+            return modelAndView;
         }
         else throw new UserNotFoundException("no user with the given id exists");
     }
@@ -174,6 +203,19 @@ public class UserController {
         HttpSession session=request.getSession();
         session.invalidate();
         return "redirect:/";
+    }
+
+
+    //user role checking utility methods
+    public Set<Role> roleChecker(Set<Role> roles,String status,Role role){
+        if(status==null){
+            roles.remove(role);
+            return roles;
+        }
+        else {
+            roles.add(role);
+            return roles;
+        }
     }
 }
 

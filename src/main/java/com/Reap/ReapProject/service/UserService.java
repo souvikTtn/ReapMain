@@ -7,6 +7,7 @@ import com.Reap.ReapProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,4 +87,13 @@ public class UserService {
     public List<String> findAllEmails(){
         return userRepository.findAllEmails();
     }
+
+    public void adminEditUser(User user){
+        //setting uo the badges as per role
+        User userToSave=setBadges(user);
+        updateUser(userToSave);
+    }
+
+
+
 }

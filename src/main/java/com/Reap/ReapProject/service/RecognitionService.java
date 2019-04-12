@@ -32,35 +32,36 @@ public class RecognitionService {
         Optional<User> sender=userService.getUserById(senderId);
         Optional<User> receiver=userService.getUserById(receiverId);
 
-
-        if(recognition.getBadge().equals("silver")){
-            if(sender.get().getSilverSharable()>0){
-                sender.get().setSilverSharable(sender.get().getSilverSharable()-1);
-                receiver.get().setSilverRedeemable(receiver.get().getSilverRedeemable()+1);
+        if(sender.isPresent()){
+            if(recognition.getBadge().equals("silver")){
+                if(sender.get().getSilverSharable()>0){
+                    sender.get().setSilverSharable(sender.get().getSilverSharable()-1);
+                    receiver.get().setSilverRedeemable(receiver.get().getSilverRedeemable()+1);
+                }
+                else {
+                    System.out.println("not enough badges");
+                }
             }
-            else {
-                System.out.println("not enough badges");
+            if (recognition.getBadge().equals("gold")) {
+                if(sender.get().getGoldSharable()>0){
+                    sender.get().setGoldSharable(sender.get().getGoldSharable()-1);
+                    receiver.get().setGoldRedeemable(receiver.get().getGoldRedeemable()+1);
+                }
+                else {
+                    System.out.println("not enough badges");
+                }
+            }
+
+            if (recognition.getBadge().equals("bronze")){
+                if (sender.get().getBronzeSharable()>0){
+                    sender.get().setBronzeSharable(sender.get().getBronzeSharable()-1);
+                    receiver.get().setBronzeRedeemable(receiver.get().getBronzeRedeemable()+1);
+                }
+                else {
+                    System.out.println("not enough badges");
+                }
             }
         }
-         if (recognition.getBadge().equals("gold")) {
-             if(sender.get().getGoldSharable()>0){
-                 sender.get().setGoldSharable(sender.get().getGoldSharable()-1);
-                 receiver.get().setGoldRedeemable(receiver.get().getGoldRedeemable()+1);
-             }
-             else {
-                 System.out.println("not enough badges");
-             }
-         }
-
-         if (recognition.getBadge().equals("bronze")){
-             if (sender.get().getBronzeSharable()>0){
-                 sender.get().setBronzeSharable(sender.get().getBronzeSharable()-1);
-                 receiver.get().setBronzeRedeemable(receiver.get().getBronzeRedeemable()+1);
-             }
-             else {
-                 System.out.println("not enough badges");
-             }
-         }
         receiver.get().setPoints(userService.calculatePoints(receiver.get()));
         recognitionRepository.save(recognition);
 
