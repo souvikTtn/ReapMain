@@ -11,37 +11,82 @@
             <th scope="col">Email</th>
             <th scope="col">Roles</th>
             <th scope="col">Active</th>
-            <th scope="col">Gold Shareable</th>
-            <th scope="col">Silver Shareable</th>
-            <th scope="col">Bronze Shareable</th>
-            <th scope="col">Gold Redeemable</th>
-            <th scope="col">Silver Redeemable</th>
-            <th scope="col">Bronze Redeemable</th>
-
-
+            <th scope="col">Gold shareable</th>
+            <th scope="col">Silver shareable</th>
+            <th scope="col">Bronze shareable</th>
+            <th scope="col">Gold redeemable</th>
+            <th scope="col">Silver redeemable</th>
+            <th scope="col">Bronze redeemable</th>
             <th scope="col">Points</th>
+            <th scope="col">Action</th>
         </tr>
         </thead>
-        <tbody th:each="user: ${users}">
-        <tr>
-            <th scope="row" th:text="${user.id}"></th>
-            <td>
-                <img class="img-fluid user-photo" th:src="${(user.image != null) ? user.getImage() : '/images/favicon.ico'}"/>
-            </td>
-            <td th:text="${user.firstName}"></td>
-            <td th:text="${user.lastName}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.getRoleSet()}"></td>
-            <td th:text="${user.active}"></td>
-            <td th:text="${user.goldSharable}"></td>
-            <td th:text="${user.silverSharable}"></td>
-            <td th:text="${user.bronzeSharable}"></td>
-            <td th:text="${user.goldRedeemable}"></td>
-            <td th:text="${user.silverRedeemable}"></td>
-            <td th:text="${user.bronzeRedeemable}"></td>
-
-            <td th:text="${user.points}"></td>
-        </tr>
-        </tbody>
+        <form id="userDetailsForm">
+            <tbody>
+            <tr th:each="user: ${users}">
+                <th scope="row" th:text="${user.id}"></th>
+                <td>
+                    <img class="img-fluid user-photo"
+                         th:src="${(user.image != null) ? user.getImage() : '/images/favicon.ico'}"/>
+                </td>
+                <td th:text="${user.firstName}"></td>
+                <td th:text="${user.lastName}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:with="roleSet = ${user.getRoleSet()}">
+                    <div class="form-check">
+                        <input th:checked="${#sets.contains(roleSet, T(com.Reap.ReapProject.entity.Role).ADMIN)}"
+                               class="form-check-input" type="checkbox" value="" id="adminCheck">
+                        <label style="width: 10em" class="form-check-label" for="adminCheck">
+                            Admin
+                        </label>
+                    </div>
+                    <div style="width: 5em" class="form-check">
+                        <input th:checked="${#sets.contains(roleSet, T(com.Reap.ReapProject.entity.Role).PRACTICE_HEAD)}"
+                               class="form-check-input" type="checkbox" value="" id="practiceHeadCheck">
+                        <label style="width: 10em" class="form-check-label" for="practiceHeadCheck">
+                            Practice head
+                        </label>
+                    </div>
+                    <div style="width: 5em" class="form-check">
+                        <input th:checked="${#sets.contains(roleSet, T(com.Reap.ReapProject.entity.Role).SUPERVISOR)}"
+                               class="form-check-input" type="checkbox" value="" id="supervisorCheck">
+                        <label style="width: 10em" class="form-check-label" for="supervisorCheck">
+                            Supervisor
+                        </label>
+                    </div>
+                    <div style="width: 5em" class="form-check">
+                        <input th:checked="${#sets.contains(roleSet, T(com.Reap.ReapProject.entity.Role).USER)}"
+                               class="form-check-input" type="checkbox" value="" id="userCheck">
+                        <label style="width: 10em" class="form-check-label" for="userCheck">
+                            User
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" th:checked="${user.getActive()}"/>
+                    </div>
+                </td>
+                <td th:text="${user.goldSharable}"></td>
+                <td th:text="${user.silverSharable}"></td>
+                <td th:text="${user.bronzeSharable}"></td>
+                <td>
+                    <input style="width: 3em" type="number" min="0" th:value="${user.getGoldRedeemable()}"/>
+                </td>
+                <td>
+                    <input style="width: 3em" type="number" min="0" th:value="${user.getSilverRedeemable()}"/>
+                </td>
+                <td>
+                    <input style="width: 3em" type="number" min="0" th:value="${user.getBronzeRedeemable()}"/>
+                </td>
+                <td th:text="${user.points}"></td>
+                <td>
+                    <button type="button" class="btn-sm btn btn-primary">Save</button>
+                </td>
+            </tr>
+            </tbody>
+        </form>
     </table>
 </div>
+
+

@@ -36,9 +36,6 @@ public class UserController {
     @Autowired
     RecognitionService recognitionService;
 
-    //Save the uploaded file to this folder
-    /*private static String UPLOADED_FOLDER = "/home/joyy/Documents/Reap/ReapProject/out/production/resources/static/images/userImages/";*/
-
 
     @PostMapping("/users")
     public ModelAndView addUser(@Valid @ModelAttribute("user") User user, BindingResult result,@ModelAttribute("loggedUser")LoggedInUser loggedInUser, @RequestParam("photo") MultipartFile file,HttpServletRequest request,RedirectAttributes redirectAttributes){

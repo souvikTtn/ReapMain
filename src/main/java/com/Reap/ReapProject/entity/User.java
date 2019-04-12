@@ -232,4 +232,8 @@ public class User {
     public void setActive(Boolean active) {
         this.active = active;
     }
+
+    public List<Role> getRolesAsList() {
+        return new ArrayList<Role>(roleSet);
+    }
 }
