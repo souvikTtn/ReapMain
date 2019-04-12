@@ -214,6 +214,39 @@ public class UserController {
     }
 
 
+    @GetMapping("/users/{id}/recognitions")
+    public ModelAndView getUserRecognitions(@PathVariable("id") Integer id,
+                                            HttpServletRequest httpServletRequest,
+                                            RedirectAttributes redirectAttributes) {
+        HttpSession httpSession = httpServletRequest.getSession();
+        User activeUser = (User) httpSession.getAttribute("loginUser");
+        try {
+            if (!id.equals(activeUser.getId())) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/");
+                System.out.println("id differs");
+                redirectAttributes.addFlashAttribute("loginError", "Please log in to view your recognitions");
+                return modelAndView;
+            }
+        } catch (NullPointerException ne) {
+            System.out.println("null pointer");
+            ModelAndView modelAndView = new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("loginError", "Please log in to view your recognitions");
+            return modelAndView;
+        }
+        Optional<User> optionalUser = userService.getUserById(id);
+
+        ModelAndView modelAndView = new ModelAndView("recognitions");
+        modelAndView.addObject("user", optionalUser.get());
+
+        List<Recognition> receivedRecognitionsList = recognitionService.findRecognitionByReceiverId(optionalUser.get().getId());
+        modelAndView.addObject("receivedRecognitionsList", receivedRecognitionsList);
+
+        List<Recognition> sentRecognitionsList = recognitionService.findRecognitionBySenderId(optionalUser.get().getId());
+        modelAndView.addObject("sentRecognitionsList", sentRecognitionsList);
+        return modelAndView;
+    }
+
+
     //user role checking utility methods
     public Set<Role> roleChecker(Set<Role> roles,String status,Role role){
         if(status==null){
