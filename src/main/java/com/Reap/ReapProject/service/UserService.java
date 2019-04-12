@@ -91,9 +91,8 @@ public class UserService {
     public void adminEditUser(User user){
         //setting uo the badges as per role
         User userToSave=setBadges(user);
+        Integer points=calculatePoints(userToSave);
+        userToSave.setPoints(points);
         updateUser(userToSave);
     }
-
-
-
 }

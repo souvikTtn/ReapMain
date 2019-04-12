@@ -146,7 +146,15 @@ public class UserController {
             roles=roleChecker(roles,requestParams.get("supervisorCheck"),Role.SUPERVISOR);
             roles=roleChecker(roles,requestParams.get("userCheck"),Role.USER);
 
+           //updating roles
             user1.get().setRoleSet(roles);
+
+            //updating the Badges by Admin
+            user1.get().setGoldRedeemable(Integer.parseInt(requestParams.get("goldRedeemable")));
+            user1.get().setSilverRedeemable(Integer.parseInt(requestParams.get("silverRedeemable")));
+            user1.get().setBronzeRedeemable(Integer.parseInt(requestParams.get("bronzeRedeemable")));
+
+
             userService.adminEditUser(user1.get());
             ModelAndView modelAndView=new ModelAndView("redirect:/users/"+loggedUser.getId());
             return modelAndView;
