@@ -119,31 +119,21 @@ public class RecognitionController {
 
         String badge=recognition.getBadge();
 
-        if(badge.equals("gold")){
-             receiver.setGoldRedeemable(receiver.getGoldRedeemable()-1);
-             sender.setGoldSharable(sender.getGoldSharable()+1);
-        }
+        userService.revokeUserBadge(sender,receiver,badge);
 
-        if(badge.equals("silver")){
-            receiver.setSilverRedeemable(receiver.getSilverRedeemable()-1);
-            sender.setSilverSharable(sender.getSilverSharable()+1);
-        }
-
-        if(badge.equals("bronze")){
-            receiver.setBronzeRedeemable(receiver.getBronzeRedeemable()-1);
-            sender.setBronzeSharable(sender.getBronzeSharable()+1);
-        }
-
-        Integer points=userService.calculatePoints(receiver);
-        receiver.setPoints(points);
-        userService.updateUser(receiver);
-        userService.updateUser(sender);
-
-        SimpleMailMessage badgeRevokedMail = new SimpleMailMessage();
-        badgeRevokedMail.setFrom("support@demo.com");
-        badgeRevokedMail.setTo(receiver.getEmail());
-        badgeRevokedMail.setSubject("Badge Revoked");
-        badgeRevokedMail.setText("dear User Your Recognition "+recognition+" has been revoked");
-        emailService.sendEmail(badgeRevokedMail);
+        SimpleMailMessage badgeRevokedEmail = new SimpleMailMessage();
+        badgeRevokedEmail.setFrom("reap-support@ttn.com");
+        badgeRevokedEmail.setTo(receiver.getEmail());
+        badgeRevokedEmail.setSubject("REAP - Recognition Revoked");
+        badgeRevokedEmail.setText("Hi, " + recognition.getReceiverName() +
+                "!\nYour recognition with id " + recognition.getId() +
+                " for a " + recognition.getBadge() +
+                " badge shared by " + recognition.getSenderName() +
+                " for " + recognition.getReason() +
+                ", with comments '" + recognition.getComment() +
+                "', made on " + recognition.getDate() +
+                ", has been revoked." +
+                "\nYou now have " + receiver.getPoints() + " redeemable points.");
+        emailService.sendEmail(badgeRevokedEmail);
     }
 }

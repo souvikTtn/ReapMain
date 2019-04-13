@@ -1,28 +1,32 @@
 package com.Reap.ReapProject.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Entity
 public class OrderSummary {
+    @Override
+    public String toString() {
+        return "OrderSummary{" +
+                "id=" + id +
+                ", itemQuantity=" + itemQuantity +
+                ", userId=" + userId +
+                ", totalPointsRedeemed=" + totalPointsRedeemed +
+                '}';
+    }
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private Integer itemId;
+    //key=itemId value=itemQuantity
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Map<Integer,Integer> itemQuantity=new LinkedHashMap<>();
 
     private Integer userId;
 
-    private Integer quantity;
-
-    private Integer pointsRedeemed;
-
-    public Integer getPointsRedeemed() {
-        return pointsRedeemed;
-    }
-
-    public void setPointsRedeemed(Integer pointsRedeemed) {
-        this.pointsRedeemed = pointsRedeemed;
-    }
+    private Integer totalPointsRedeemed;
 
     public Integer getId() {
         return id;
@@ -30,14 +34,6 @@ public class OrderSummary {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(Integer itemId) {
-        this.itemId = itemId;
     }
 
     public Integer getUserId() {
@@ -48,11 +44,19 @@ public class OrderSummary {
         this.userId = userId;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Map<Integer, Integer> getItemQuantity() {
+        return itemQuantity;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setItemQuantity(Map<Integer, Integer> itemQuantity) {
+        this.itemQuantity = itemQuantity;
+    }
+
+    public Integer getTotalPointsRedeemed() {
+        return totalPointsRedeemed;
+    }
+
+    public void setTotalPointsRedeemed(Integer totalPointsRedeemed) {
+        this.totalPointsRedeemed = totalPointsRedeemed;
     }
 }

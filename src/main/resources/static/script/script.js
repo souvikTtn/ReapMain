@@ -10,7 +10,7 @@ $(document).ready(function (e) {
             url:'/recognizeNewer',
             data:form.serialize(),
             success:function (data,status,xhr) {
-                setTimeout(location.reload.bind(location), 5000);
+                setTimeout(location.reload.bind(location), 3000);
                 var x=xhr.getResponseHeader("MyResponseHeader");
                 if(x==="notExist"){
                    $("#errorAlert").append(data);
@@ -201,5 +201,18 @@ $(document).ready(function (e) {
         else {
             console.log("revoke");
         }
+    });
+
+    $(".addItemToCartButton").click(function () {
+        var itemId = $(this).closest(".itemRow").find("input[name='itemId']").val();
+        var userId = $(this).closest(".itemRow").find("input[name='userId']").val();
+        console.log(itemId);
+        $.ajax({
+           method:"POST",
+            url:"/addToCart/"+itemId,
+            success:function (data) {
+                alert("item successfully added to the cart");
+            }
+        })
     })
-})
+});

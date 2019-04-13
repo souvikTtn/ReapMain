@@ -2,6 +2,7 @@ package com.Reap.ReapProject.controller;
 
 import com.Reap.ReapProject.component.LoggedInUser;
 import com.Reap.ReapProject.component.SearchUser;
+import com.Reap.ReapProject.entity.Item;
 import com.Reap.ReapProject.entity.Recognition;
 import com.Reap.ReapProject.entity.Role;
 import com.Reap.ReapProject.entity.User;
@@ -52,6 +53,8 @@ public class UserController {
                 }
             HttpSession session=request.getSession();
             session.setAttribute("loginUser",user);
+            List<Item> itemList=new ArrayList<>();
+            session.setAttribute("itemList",itemList);
             try {
                 String path=saveImagePath(file);
                 user.setImage(path);
@@ -169,7 +172,9 @@ public class UserController {
 
         if(user!=null){
             HttpSession session=request.getSession();
+            List<Item> itemList=new ArrayList<>();
             session.setAttribute("loginUser",user);
+            session.setAttribute("itemList",itemList);
             return  new ModelAndView("redirect:/users/"+user.getId());
         }
         else {
@@ -258,5 +263,36 @@ public class UserController {
             return roles;
         }
     }
+
+
+    //cart controller
+    @GetMapping("/users/{id}/cart")
+    public ModelAndView getUserCart(@PathVariable("id") Integer id,
+                                    HttpServletRequest httpServletRequest,
+                                    RedirectAttributes redirectAttributes) {
+        HttpSession httpSession = httpServletRequest.getSession();
+        User activeUser = (User) httpSession.getAttribute("loginUser");
+        try {
+            if (!id.equals(activeUser.getId())) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/");
+                redirectAttributes.addFlashAttribute("error", "Please log in to view your cart");
+                return modelAndView;
+            }
+        } catch (NullPointerException ne) {
+            ModelAndView modelAndView = new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("error", "Please log in to view your cart");
+            return modelAndView;
+        }
+        Optional<User> optionalUser = userService.getUserById(id);
+        if (!optionalUser.isPresent()) {
+            throw new UserNotFoundException("No user with id " + id);
+        }
+        ModelAndView modelAndView = new ModelAndView("cart");
+        modelAndView.addObject("user", optionalUser.get());
+        List<Item> itemList = (List<Item>) httpSession.getAttribute("itemList");
+        modelAndView.addObject("itemList", itemList);
+        return modelAndView;
+    }
+
 }
 

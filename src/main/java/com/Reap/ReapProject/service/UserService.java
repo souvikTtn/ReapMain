@@ -95,4 +95,20 @@ public class UserService {
         userToSave.setPoints(points);
         updateUser(userToSave);
     }
+
+    public void revokeUserBadge(User sender,User receiver, String badge) {
+        if (badge.equals("gold")) {
+            receiver.setGoldRedeemable(receiver.getGoldRedeemable() - 1);
+            sender.setGoldSharable(sender.getGoldSharable()+1);
+        } else if (badge.equals("silver")) {
+            receiver.setSilverRedeemable(receiver.getSilverRedeemable() - 1);
+            sender.setSilverSharable(sender.getSilverSharable()+1);
+        } else {
+            receiver.setBronzeRedeemable(receiver.getBronzeRedeemable() - 1);
+            sender.setBronzeSharable(sender.getBronzeSharable()+1);
+        }
+        receiver.setPoints(calculatePoints(receiver));
+        userRepository.save(receiver);
+        userRepository.save(sender);
+    }
 }
