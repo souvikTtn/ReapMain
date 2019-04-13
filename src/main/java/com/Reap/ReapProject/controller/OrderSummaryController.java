@@ -5,6 +5,7 @@ import com.Reap.ReapProject.entity.OrderSummary;
 import com.Reap.ReapProject.entity.User;
 import com.Reap.ReapProject.service.ItemService;
 import com.Reap.ReapProject.service.OrderSummaryService;
+import com.Reap.ReapProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,17 +25,36 @@ public class OrderSummaryController {
     ItemService itemService;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     OrderSummaryService orderSummaryService;
 
     @PostMapping("/addToCart/{itemId}")
-    @ResponseBody
-    public void addItemToCart(HttpServletRequest request, @PathVariable("itemId")String itemId){
+    public ModelAndView addItemToCart(HttpServletRequest request, @PathVariable("itemId")String itemId){
         HttpSession session=request.getSession();
         Integer id=Integer.parseInt(itemId);
         List<Item> itemList=(List<Item>) session.getAttribute("itemList");
+        Integer itemListPoints=0;
+        for (Item item:itemList){
+            itemListPoints+=item.getPoints();
+        }
+
         Item item=itemService.findItemById(id).get();
+        User activeUser=(User)session.getAttribute("loginUser");
+
+
+        System.out.println("active user "+activeUser);
+
+
+        if (activeUser.getPoints() < itemListPoints+item.getPoints()) {
+            System.out.println("Not enough points");
+            ModelAndView modelAndView = new ModelAndView("redirect:/items");
+            return modelAndView;
+        }
         itemList.add(item);
         System.out.println("item added successfully");
+        return new ModelAndView("redirect:/items");
     }
 
     @GetMapping("/checkout")
@@ -61,6 +81,7 @@ public class OrderSummaryController {
         orderSummary.setItemQuantity(itemQuantity);
         orderSummary.setTotalPointsRedeemed(points);
         orderSummaryService.addOrder(orderSummary);
+        userService.deductPointsOnCheckout(user, points);
         System.out.println("order saved");
         itemList.clear();
         ModelAndView modelAndView=new ModelAndView("redirect:users/"+user.getId()+"/cart");
