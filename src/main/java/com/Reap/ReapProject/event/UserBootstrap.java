@@ -27,7 +27,7 @@ public class UserBootstrap {
             User user=new User();
             user.setFirstName("Souvik");
             user.setLastName("Chakraborty");
-            user.setEmail("souvikc40@gmail.com");
+            user.setEmail("souvik.chakraborty@tothenew.com");
             user.setPassword("souvikdgreat");
             user.setFullName(user.getFirstName()+" "+user.getLastName());
             user.setActive(true);
@@ -73,6 +73,18 @@ public class UserBootstrap {
             user4.setPassword("deesssooo");
             user4.setFullName(user4.getFirstName()+" "+user4.getLastName());
             userService.addUser(user4);
+
+            User user5 = new User();
+            user5.setActive(true);
+            user5.setEmail("souvikc40@gmail.com");
+            user5.setFirstName("Subham");
+            user5.setLastName("Chakraborty");
+            user5.setPassword("deesssooo");
+            user5.setFullName(user5.getFirstName()+" "+user5.getLastName());
+            userService.addUser(user5);
+
+
+
         }
     }
 }

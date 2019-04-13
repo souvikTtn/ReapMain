@@ -182,7 +182,7 @@ public class UserController {
 
     @PostMapping("/searchRecogByName")
     @ResponseBody
-    public List<Recognition> getUserRecogByName(@ModelAttribute("searchUser")SearchUser searchUser){
+    public List<Recognition> getUserRecognitionByNameSearchUser(@ModelAttribute("searchUser")SearchUser searchUser){
         System.out.println("controller called");
         System.out.println("search user "+searchUser);
         searchUser.getCurrentUserId();
@@ -193,7 +193,7 @@ public class UserController {
 
     @GetMapping("/searchRecogByDate/{date}")
     @ResponseBody
-    public List<Recognition> getUserRecodByName(@PathVariable("date") String date){
+    public List<Recognition> getUserRecognitionByNameDate(@PathVariable("date") String date){
         List<Recognition> recognitions=recognitionService.findRecognitionByDateBetween(date);
         return recognitions;
     }

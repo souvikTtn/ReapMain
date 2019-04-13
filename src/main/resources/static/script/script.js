@@ -192,8 +192,9 @@ $(document).ready(function (e) {
                 method:"PUT",
                 url:"/revokeBadges/"+id,
                 success:function (data) {
-                    console.log("sucess")
+                    console.log("success")
                     alert("revoked badge sucessfully");
+                    window.location.reload();
                 }
             })
         }
