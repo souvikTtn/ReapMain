@@ -215,4 +215,18 @@ $(document).ready(function (e) {
             }
         })
     })
+
+    $(".removeCartItemButton").click(function () {
+        var itemId = $(this).closest(".cartRow").find("input[name='cartItemId']").val();
+        $.ajax({
+            method:"PUT",
+            url:"/removeFromCart/"+itemId,
+            success:function (data) {
+                alert("item successfully removed")
+                window.location.reload();
+            }
+        })
+    })
+
+
 });

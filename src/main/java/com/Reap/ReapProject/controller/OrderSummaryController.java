@@ -7,10 +7,7 @@ import com.Reap.ReapProject.service.ItemService;
 import com.Reap.ReapProject.service.OrderSummaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -18,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 @Controller
@@ -68,5 +66,27 @@ public class OrderSummaryController {
         ModelAndView modelAndView=new ModelAndView("redirect:users/"+user.getId()+"/cart");
         redirectAttributes.addFlashAttribute("orderSuccessfull","your Order is Successfull");
         return modelAndView;
+    }
+
+    @PutMapping("/removeFromCart/{itemId}")
+    @ResponseBody
+    public void removeItemFromCart(HttpServletRequest request,@PathVariable("itemId")String itemId){
+        Integer id=Integer.parseInt(itemId);
+        HttpSession session=request.getSession();
+        List<Item> itemList=(List<Item>) session.getAttribute("itemList");
+
+        System.out.println("session item list"+itemList);
+        System.out.println(itemService.findItemById(id).get());
+        Item item=itemService.findItemById(id).get();
+
+        ListIterator<Item> itemListIterator=itemList.listIterator();
+
+        label1: while (itemListIterator.hasNext()){
+            if(itemListIterator.next().getId()==item.getId()){
+                itemListIterator.remove();
+                break label1;
+            }
+        }
+        session.setAttribute("itemList",itemList);
     }
 }

@@ -19,6 +19,7 @@
         <table class="text-center table table-light table-bordered">
             <thead>
             <tr class="card-header">
+                <th style="display: none;" scope="col">ID</th>
                 <th scope="col">Photo</th>
                 <th scope="col">Name</th>
                 <th scope="col">Points worth</th>
@@ -26,12 +27,13 @@
             </tr>
             </thead>
             <tbody th:each="item: ${itemList}">
-            <tr class="itemRow">
+            <tr class="cartRow">
+                <th scope="row" style="display: none;"><input name="cartItemId" type="text" th:value="${item.id}"/></th>
                 <td><img class="img-fluid user-photo" th:src="${item.image}" style="height: 3em"/></td>
                 <td th:text="${item.name}"></td>
                 <td th:text="${item.points}"></td>
                 <td>
-                    <button type="button" class="btn btn-danger">
+                    <button type="button" class="btn btn-danger removeCartItemButton">
                         <i class="far fa-minus-square"></i>
                     </button>
                 </td>
