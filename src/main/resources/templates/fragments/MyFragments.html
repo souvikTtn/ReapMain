@@ -40,6 +40,10 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link" th:href="@{'/users/' + ${user.getId()} + '/orders'}">My Orders</a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" th:href="@{/items}">Redeem points</a>
             </li>
 

@@ -5,6 +5,8 @@ import com.Reap.ReapProject.repository.OrderSummaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrderSummaryService {
     @Autowired
@@ -12,6 +14,10 @@ public class OrderSummaryService {
 
     public void addOrder(OrderSummary orderSummary){
         orderSummaryRepository.save(orderSummary);
+    }
+
+    public List<OrderSummary> findAllOrders(){
+        return orderSummaryRepository.findAll();
     }
 
 }

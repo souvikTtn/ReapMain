@@ -2,12 +2,10 @@ package com.Reap.ReapProject.controller;
 
 import com.Reap.ReapProject.component.LoggedInUser;
 import com.Reap.ReapProject.component.SearchUser;
-import com.Reap.ReapProject.entity.Item;
-import com.Reap.ReapProject.entity.Recognition;
-import com.Reap.ReapProject.entity.Role;
-import com.Reap.ReapProject.entity.User;
+import com.Reap.ReapProject.entity.*;
 import com.Reap.ReapProject.exception.UnauthorisedAccessException;
 import com.Reap.ReapProject.exception.UserNotFoundException;
+import com.Reap.ReapProject.service.OrderSummaryService;
 import com.Reap.ReapProject.service.RecognitionService;
 import com.Reap.ReapProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +33,9 @@ public class UserController {
 
     @Autowired
     RecognitionService recognitionService;
+
+    @Autowired
+    OrderSummaryService orderSummaryService;
 
 
     @PostMapping("/users")
@@ -291,6 +292,35 @@ public class UserController {
         modelAndView.addObject("user", optionalUser.get());
         List<Item> itemList = (List<Item>) httpSession.getAttribute("itemList");
         modelAndView.addObject("itemList", itemList);
+        return modelAndView;
+    }
+
+    //orderHistory
+    @GetMapping("/users/{id}/orders")
+    public ModelAndView getOrderHistory(@PathVariable("id") Integer id,
+                                    HttpServletRequest httpServletRequest,
+                                    RedirectAttributes redirectAttributes) {
+        HttpSession httpSession = httpServletRequest.getSession();
+        User activeUser = (User) httpSession.getAttribute("loginUser");
+        try {
+            if (!id.equals(activeUser.getId())) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/");
+                redirectAttributes.addFlashAttribute("error", "Please log in to view your order History");
+                return modelAndView;
+            }
+        } catch (NullPointerException ne) {
+            ModelAndView modelAndView = new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("error", "Please log in to view your order history");
+            return modelAndView;
+        }
+        Optional<User> optionalUser = userService.getUserById(id);
+        if (!optionalUser.isPresent()) {
+            throw new UserNotFoundException("No user with id " + id);
+        }
+        ModelAndView modelAndView = new ModelAndView("OrderHistory");
+        modelAndView.addObject("user", optionalUser.get());
+        List<OrderSummary> orderSummaries =orderSummaryService.findAllOrders();
+        modelAndView.addObject("orderSummaryList", orderSummaries);
         return modelAndView;
     }
 
