@@ -5,6 +5,7 @@ import com.Reap.ReapProject.component.SearchUser;
 import com.Reap.ReapProject.entity.*;
 import com.Reap.ReapProject.exception.UnauthorisedAccessException;
 import com.Reap.ReapProject.exception.UserNotFoundException;
+import com.Reap.ReapProject.service.ItemService;
 import com.Reap.ReapProject.service.OrderSummaryService;
 import com.Reap.ReapProject.service.RecognitionService;
 import com.Reap.ReapProject.service.UserService;
@@ -37,6 +38,9 @@ public class UserController {
     @Autowired
     OrderSummaryService orderSummaryService;
 
+    @Autowired
+    ItemService itemService;
+
 
     @PostMapping("/users")
     public ModelAndView addUser(@Valid @ModelAttribute("user") User user, BindingResult result,@ModelAttribute("loggedUser")LoggedInUser loggedInUser, @RequestParam("photo") MultipartFile file,HttpServletRequest request,RedirectAttributes redirectAttributes){
@@ -56,6 +60,7 @@ public class UserController {
             session.setAttribute("loginUser",user);
             List<Item> itemList=new ArrayList<>();
             session.setAttribute("itemList",itemList);
+            session.setAttribute("currentCartTotal", 0);
             try {
                 String path=saveImagePath(file);
                 user.setImage(path);
@@ -182,6 +187,7 @@ public class UserController {
             List<Item> itemList=new ArrayList<>();
             session.setAttribute("loginUser",user);
             session.setAttribute("itemList",itemList);
+            session.setAttribute("currentCartTotal", 0);
             return  new ModelAndView("redirect:/users/"+user.getId());
         }
         else {
@@ -298,6 +304,8 @@ public class UserController {
         modelAndView.addObject("user", optionalUser.get());
         List<Item> itemList = (List<Item>) httpSession.getAttribute("itemList");
         modelAndView.addObject("itemList", itemList);
+        Integer currentCartTotal = (Integer) httpSession.getAttribute("currentCartTotal");
+        modelAndView.addObject("currentCartTotal", currentCartTotal);
         return modelAndView;
     }
 
@@ -323,10 +331,24 @@ public class UserController {
         if (!optionalUser.isPresent()) {
             throw new UserNotFoundException("No user with id " + id);
         }
+
         ModelAndView modelAndView = new ModelAndView("OrderHistory");
         modelAndView.addObject("user", optionalUser.get());
         List<OrderSummary> orderSummaries =orderSummaryService.getAllOrdersByUserId(activeUser.getId());
         modelAndView.addObject("orderSummaryList", orderSummaries);
+
+        //this list will store all the item keys in the order summaries
+        List<Integer> itemIdList = new ArrayList<>();
+
+        //this set will be added in the model and view to render the items in the frontend ie order history page
+        Set<Item> itemSetInOrderSummaryList = new LinkedHashSet<>();
+        for (OrderSummary orderSummary : orderSummaries) {
+            itemIdList = orderSummary.getItemIdsInOrderSummary();
+            for (Integer itemId : itemIdList) {
+                itemSetInOrderSummaryList.add(itemService.findItemById(itemId).get());
+            }
+        }
+        modelAndView.addObject("itemSetInOrderSummaryList", itemSetInOrderSummaryList);
         return modelAndView;
     }
 

@@ -40,6 +40,7 @@ public class OrderSummaryController {
             itemListPoints+=item.getPoints();
         }
 
+        //item to add in the cart
         Item item=itemService.findItemById(id).get();
         User activeUser=(User)session.getAttribute("loginUser");
 
@@ -49,7 +50,7 @@ public class OrderSummaryController {
             return modelAndView;
         }
         itemList.add(item);
-        System.out.println("item added successfully");
+        session.setAttribute("currentCartTotal", itemListPoints + item.getPoints());
         return new ModelAndView("redirect:/items");
     }
 
@@ -80,6 +81,8 @@ public class OrderSummaryController {
         userService.deductPointsOnCheckout(user, points);
         System.out.println("order saved");
         itemList.clear();
+        session.setAttribute("currentCartTotal", 0);
+
         ModelAndView modelAndView=new ModelAndView("redirect:users/"+user.getId()+"/cart");
         redirectAttributes.addFlashAttribute("orderSuccessfull","your Order is Successfull");
         return modelAndView;
@@ -104,6 +107,12 @@ public class OrderSummaryController {
                 break label1;
             }
         }
+
+        Integer currentCartPointsWorth = 0;
+        for (Item itemInCart : itemList) {
+            currentCartPointsWorth += itemInCart.getPoints();
+        }
+        session.setAttribute("currentCartTotal", currentCartPointsWorth);
         session.setAttribute("itemList",itemList);
     }
 }

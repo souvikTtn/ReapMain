@@ -1,7 +1,9 @@
 package com.Reap.ReapProject.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -58,5 +60,15 @@ public class OrderSummary {
 
     public void setTotalPointsRedeemed(Integer totalPointsRedeemed) {
         this.totalPointsRedeemed = totalPointsRedeemed;
+    }
+
+
+    //utility method to store all the item ids of the item in the order summary
+    public List<Integer> getItemIdsInOrderSummary() {
+        List<Integer> itemIds = new ArrayList<>();
+        for (Integer key : this.getItemQuantity().keySet()) {
+            itemIds.add(key);
+        }
+        return itemIds;
     }
 }
