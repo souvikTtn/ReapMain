@@ -82,19 +82,36 @@ public class RecognitionController {
 
 
     @GetMapping("/sharedRecognitions/{id}")
+    @ResponseBody
     public List<Recognition> userSharedRecognitions(@PathVariable("id") Integer id, HttpServletRequest request){
-       /* HttpSession session=request.getSession();
+        HttpSession session=request.getSession();
         User user=(User) session.getAttribute("loginUser");
-        System.out.println(user);*/
+        try {
+            if(!id.equals(user.getId())){
+                throw new UnauthorisedAccessException("Unauthorised Access");
+            }
+        }
+        catch (NullPointerException e){
+            throw new UnauthorisedAccessException("Unauthorised Access");
+        }
+
         return recognitionService.findRecognitionBySenderId(id);
     }
 
     @GetMapping("/receivedRecognitions/{id}")
+    @ResponseBody
     public List<Recognition> userReceivedRecognitions(@PathVariable("id") Integer id,HttpServletRequest request){
-        /*HttpSession session=request.getSession();
+        HttpSession session=request.getSession();
         User user=(User) session.getAttribute("loginUser");
-        System.out.println(user);*/
 
+        try {
+            if(!id.equals(user.getId())){
+                throw new UnauthorisedAccessException("Unauthorised Access");
+            }
+        }
+        catch (NullPointerException e){
+            throw new UnauthorisedAccessException("Unauthorised Access");
+        }
         return recognitionService.findRecognitionByReceiverId(id);
     }
 
