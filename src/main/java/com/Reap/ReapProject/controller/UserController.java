@@ -123,6 +123,7 @@ public class UserController {
 
 
     //this path variable id is coming from form and differs from session id
+    //Controller Meant for Admin editing user roles and points
     @PutMapping("/users/{id}")
     public ModelAndView updateUser(@PathVariable Integer id,@RequestParam Map<String, String> requestParams,HttpServletRequest request){
         HttpSession session=request.getSession();
@@ -159,7 +160,12 @@ public class UserController {
             user1.get().setBronzeRedeemable(Integer.parseInt(requestParams.get("bronzeRedeemable")));
 
 
+
             userService.adminEditUser(user1.get());
+
+            //Update User and Admin points in the Current Session
+            User activeUserRefreshed = userService.getUserById(loggedUser.getId()).get();
+            session.setAttribute("loginUser", activeUserRefreshed);
             ModelAndView modelAndView=new ModelAndView("redirect:/users/"+loggedUser.getId());
             return modelAndView;
         }

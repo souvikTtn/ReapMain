@@ -43,10 +43,6 @@ public class OrderSummaryController {
         Item item=itemService.findItemById(id).get();
         User activeUser=(User)session.getAttribute("loginUser");
 
-
-        System.out.println("active user "+activeUser);
-
-
         if (activeUser.getPoints() < itemListPoints+item.getPoints()) {
             System.out.println("Not enough points");
             ModelAndView modelAndView = new ModelAndView("redirect:/items");
