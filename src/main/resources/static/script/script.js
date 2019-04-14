@@ -177,6 +177,8 @@ $(document).ready(function (e) {
             })
         }
     });
+
+    //for changing the name of choose photo input box
     $('input[type="file"]').change(function(e){
         var fileName = e.target.files[0].name;
         $("#fileSelector").text(fileName)
