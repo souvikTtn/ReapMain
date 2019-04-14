@@ -10,5 +10,6 @@ import java.util.List;
 public interface OrderSummaryRepository extends CrudRepository<OrderSummary,Integer> {
 
     List<OrderSummary> findAll();
+    List<OrderSummary> findByUserId(Integer id);
 
 }
