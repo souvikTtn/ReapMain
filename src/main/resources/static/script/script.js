@@ -210,11 +210,28 @@ $(document).ready(function (e) {
         $.ajax({
            method:"POST",
             url:"/addToCart/"+itemId,
-            success:function (data) {
-                alert("item successfully added to the cart");
+            success:function (data,status,xhr) {
+                setTimeout(location.reload.bind(location), 3000);
+                var x=xhr.getResponseHeader("MyResponseHeader");
+                if(x==="insufficientPoints"){
+                    $("#errorCartAlert").append(data);
+                    $("#errorCartAlert").show();
+                }
+                if(x==="cartAddSuccessful"){
+                    $("#successCartAlert").append(data);
+                    $("#successCartAlert").show();
+                }
             }
         })
-    })
+    });
+
+    $("#successCartAlert").click(function () {
+        window.location.reload();
+    });
+
+    $("#errorCartAlert").click(function () {
+        window.location.reload();
+    });
 
     $(".removeCartItemButton").click(function () {
         var itemId = $(this).closest(".cartRow").find("input[name='cartItemId']").val();

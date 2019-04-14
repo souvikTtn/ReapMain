@@ -5,6 +5,15 @@
  <div th:replace="fragments/MyFragments :: navBar"></div>
 <div class="container" id="main">
     <h1 class="display-4">Redeemable items</h1>
+
+    <!--Alert Messages-->
+    <div class="alert alert-success" role="alert" id="successCartAlert" style="display: none;">
+    </div>
+
+    <div class="alert alert-danger" role="alert" id="errorCartAlert" style="display: none;">
+    </div>
+    <!--Alert Messages-->
+
     <div class="table-responsive">
         <table class="text-center table table-light table-bordered">
             <thead>

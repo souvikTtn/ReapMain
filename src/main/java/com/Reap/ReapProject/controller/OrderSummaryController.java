@@ -7,6 +7,9 @@ import com.Reap.ReapProject.service.ItemService;
 import com.Reap.ReapProject.service.OrderSummaryService;
 import com.Reap.ReapProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,7 +34,7 @@ public class OrderSummaryController {
     OrderSummaryService orderSummaryService;
 
     @PostMapping("/addToCart/{itemId}")
-    public ModelAndView addItemToCart(HttpServletRequest request, @PathVariable("itemId")String itemId){
+    public ResponseEntity<String> addItemToCart(HttpServletRequest request, @PathVariable("itemId")String itemId){
         HttpSession session=request.getSession();
         Integer id=Integer.parseInt(itemId);
         List<Item> itemList=(List<Item>) session.getAttribute("itemList");
@@ -46,12 +49,15 @@ public class OrderSummaryController {
 
         if (activeUser.getPoints() < itemListPoints+item.getPoints()) {
             System.out.println("Not enough points");
-            ModelAndView modelAndView = new ModelAndView("redirect:/items");
-            return modelAndView;
+            HttpHeaders httpHeaders=new HttpHeaders();
+            httpHeaders.set("MyResponseHeader","insufficientPoints");
+            return new ResponseEntity<String>("Could Add Item To the Cart Not Enough Points",httpHeaders, HttpStatus.OK);
         }
         itemList.add(item);
         session.setAttribute("currentCartTotal", itemListPoints + item.getPoints());
-        return new ModelAndView("redirect:/items");
+        HttpHeaders httpHeaders=new HttpHeaders();
+        httpHeaders.set("MyResponseHeader","cartAddSuccessful");
+        return new ResponseEntity<String>("Item Successfully Added To The Cart",httpHeaders,HttpStatus.OK);
     }
 
     @GetMapping("/checkout")
