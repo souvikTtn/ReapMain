@@ -132,7 +132,7 @@ public class UserController {
     //Controller Meant for Admin editing user roles and points
     // Modify user with id {id}
     @PutMapping("/users/{id}")
-    public ModelAndView updateUser(@PathVariable Integer id,@RequestParam Map<String, String> requestParams,HttpServletRequest request){
+    public ModelAndView updateUser(@PathVariable Integer id,@RequestParam Map<String, String> requestParams,HttpServletRequest request,RedirectAttributes redirectAttributes){
         HttpSession session=request.getSession();
         User loggedUser=(User)session.getAttribute("loginUser");
 
@@ -169,6 +169,7 @@ public class UserController {
 
 
             userService.adminEditUser(user1.get());
+            redirectAttributes.addFlashAttribute("successfulUpdate","user successfully Updated");
 
             //Update User and Admin points in the Current Session
             User activeUserRefreshed = userService.getUserById(loggedUser.getId()).get();
