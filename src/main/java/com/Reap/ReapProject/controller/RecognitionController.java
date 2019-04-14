@@ -38,6 +38,7 @@ public class RecognitionController {
     @Autowired
     EmailService emailService;
 
+    // Create a new recognition
     @PostMapping("/recognizeNewer")
     public ResponseEntity<String> recognizeUser(@ModelAttribute("recognition") Recognition recognition,HttpServletRequest request){
 
@@ -97,6 +98,7 @@ public class RecognitionController {
         return recognitionService.findRecognitionByReceiverId(id);
     }
 
+    // Revoke recognition
     @PutMapping("/revokeBadges/{id}")
     @ResponseBody
     public void revokeBadge(@PathVariable("id")String id){

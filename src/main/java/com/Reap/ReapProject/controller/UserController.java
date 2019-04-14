@@ -41,7 +41,7 @@ public class UserController {
     @Autowired
     ItemService itemService;
 
-
+    // Create new user
     @PostMapping("/users")
     public ModelAndView addUser(@Valid @ModelAttribute("user") User user, BindingResult result,@ModelAttribute("loggedUser")LoggedInUser loggedInUser, @RequestParam("photo") MultipartFile file,HttpServletRequest request,RedirectAttributes redirectAttributes){
         if(result.hasErrors()){
@@ -86,6 +86,7 @@ public class UserController {
         return userService.getAllUser();
     }
 
+    // Show user dashboard
     @GetMapping("/users/{id}")
     public ModelAndView getUserById(@PathVariable("id") Integer id, Model model, HttpServletRequest request,RedirectAttributes redirectAttributes){
         HttpSession session=request.getSession();
@@ -129,6 +130,7 @@ public class UserController {
 
     //this path variable id is coming from form and differs from session id
     //Controller Meant for Admin editing user roles and points
+    // Modify user with id {id}
     @PutMapping("/users/{id}")
     public ModelAndView updateUser(@PathVariable Integer id,@RequestParam Map<String, String> requestParams,HttpServletRequest request){
         HttpSession session=request.getSession();
@@ -177,6 +179,7 @@ public class UserController {
         else throw new UserNotFoundException("no user with the given id exists");
     }
 
+    // Log user in
     @PostMapping("/login")
     public ModelAndView userLogin(@ModelAttribute("loggedUser")LoggedInUser loggedInUser, HttpServletRequest request, RedirectAttributes redirectAttributes){
 
@@ -197,7 +200,7 @@ public class UserController {
         }
     }
 
-
+    // Search recognitions by receiver name
     @PostMapping("/searchRecogByName")
     @ResponseBody
     public List<Recognition> getUserRecognitionByNameSearchUser(@ModelAttribute("searchUser")SearchUser searchUser){
@@ -209,6 +212,7 @@ public class UserController {
         return  recognitions;
     }
 
+    // Search recognitions by date
     @GetMapping("/searchRecogByDate/{date}")
     @ResponseBody
     public List<Recognition> getUserRecognitionByNameDate(@PathVariable("date") String date){
@@ -216,6 +220,7 @@ public class UserController {
         return recognitions;
     }
 
+    // Autocomplete user name
     @GetMapping("/autocomplete")
     @ResponseBody
     public List<User> autoComplete(@RequestParam("pattern")String namePattern){
@@ -223,6 +228,7 @@ public class UserController {
         return userService.findByFullNameLike(namePattern+"%");
     }
 
+    // Log user out
     @PostMapping("/logout")
     public String logout(HttpServletRequest request)
     {
@@ -232,6 +238,7 @@ public class UserController {
     }
 
 
+    // Show user recognitions
     @GetMapping("/users/{id}/recognitions")
     public ModelAndView getUserRecognitions(@PathVariable("id") Integer id,
                                             HttpServletRequest httpServletRequest,
@@ -279,6 +286,7 @@ public class UserController {
 
 
     //cart controller
+    // Show user cart
     @GetMapping("/users/{id}/cart")
     public ModelAndView getUserCart(@PathVariable("id") Integer id,
                                     HttpServletRequest httpServletRequest,
@@ -310,6 +318,7 @@ public class UserController {
     }
 
     //orderHistory
+    // Show user order history
     @GetMapping("/users/{id}/orders")
     public ModelAndView getOrderHistory(@PathVariable("id") Integer id,
                                     HttpServletRequest httpServletRequest,

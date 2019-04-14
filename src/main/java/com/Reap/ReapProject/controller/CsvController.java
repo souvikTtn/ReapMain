@@ -25,6 +25,7 @@ public class CsvController {
     RecognitionService recognitionService;
 
 
+    // Download CSV of recognitions found by date
     @GetMapping("/downloadCsv/{date}")
     public void downloadCsv(@PathVariable("date")String date, HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session=request.getSession();

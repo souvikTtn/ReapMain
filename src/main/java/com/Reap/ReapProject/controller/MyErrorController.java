@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class MyErrorController implements ErrorController {
+    // Handle 404 and 500 errors
     @Override
     public String getErrorPath() {
         return "/error";

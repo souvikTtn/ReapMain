@@ -18,7 +18,7 @@ import java.util.List;
 public class ItemController {
     @Autowired
     ItemService itemService;
-
+    // Show item list
     @GetMapping("/items")
     public ModelAndView getItemPage(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes){
         HttpSession session=request.getSession();

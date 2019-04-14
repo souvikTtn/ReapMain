@@ -32,7 +32,7 @@ public class OrderSummaryController {
 
     @Autowired
     OrderSummaryService orderSummaryService;
-
+    // Add an item to user's cart
     @PostMapping("/addToCart/{itemId}")
     public ResponseEntity<String> addItemToCart(HttpServletRequest request, @PathVariable("itemId")String itemId){
         HttpSession session=request.getSession();
@@ -60,6 +60,7 @@ public class OrderSummaryController {
         return new ResponseEntity<String>("Item Successfully Added To The Cart",httpHeaders,HttpStatus.OK);
     }
 
+    // Create a new order with items from the cart
     @GetMapping("/checkout")
     public ModelAndView checkout(HttpServletRequest request, RedirectAttributes redirectAttributes){
 
@@ -94,6 +95,7 @@ public class OrderSummaryController {
         return modelAndView;
     }
 
+    // Remove an item from user's cart
     @PutMapping("/removeFromCart/{itemId}")
     @ResponseBody
     public void removeItemFromCart(HttpServletRequest request,@PathVariable("itemId")String itemId){
