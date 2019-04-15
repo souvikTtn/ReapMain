@@ -16,12 +16,22 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    private static int nameCounter = 0;
+
     public User addUser(User user){
        User user1=setBadges(user);
        Integer points=calculatePoints(user1);
        user1.setPoints(points);
-       user1.setFullName(user1.getFirstName()+" "+user1.getLastName());
-       userRepository.save(user1);
+
+       //appending counter in case od user with same name
+       String fullName=user1.getFirstName()+" "+user1.getLastName();
+       List<String>fullnames=userRepository.findAllFullName();
+        if (fullnames.contains(fullName)) {
+            nameCounter += 1;
+            fullName = fullName + " " + nameCounter;
+        }
+        user1.setFullName(fullName);
+        userRepository.save(user1);
         return user1;
     }
 
