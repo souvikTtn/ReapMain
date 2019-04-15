@@ -23,16 +23,13 @@ public class UserService {
        Integer points=calculatePoints(user1);
        user1.setPoints(points);
 
-       //appending counter in case od user with same name
-       String fullName=user1.getFirstName()+" "+user1.getLastName();
-       List<String>fullnames=userRepository.findAllFullName();
-        if (fullnames.contains(fullName)) {
+        String fullName = user1.getFirstName() + " " + user1.getLastName();
+        if (userRepository.findByFullName(fullName) != null) {
             nameCounter += 1;
             fullName = fullName + " " + nameCounter;
         }
         user1.setFullName(fullName);
-        userRepository.save(user1);
-        return user1;
+        return  userRepository.save(user1);
     }
 
     public List<User> getAllUser(){

@@ -216,7 +216,7 @@
                             <img style="height: 6em;width: 6em;" th:src="@{''+${user.getImage()}}" class="img-circle">
                         </div>
                         <div class="col-9">
-                            <strong th:text="${user.firstName}+' '+${user.lastName}"></strong><br/>
+                            <strong th:text="${user.fullName}"></strong><br/>
                             <div class="row">
                                 <div class="col-3">
                                     <img src="/images/gold.png">
@@ -253,7 +253,7 @@
                             <img style="height: 6em;width: 6em;" th:src="@{''+${user.getImage()}}" class="img-circle">
                         </div>
                         <div class="col-9">
-                            <strong th:text="${user.firstName}+' '+${user.lastName}"></strong><br/>
+                            <strong th:text="${user.fullName}"></strong><br/>
                             <div class="row">
                                 <div class="col-3">
                                     <img src="/images/gold.png">

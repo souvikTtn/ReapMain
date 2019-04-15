@@ -23,7 +23,4 @@ public interface UserRepository extends CrudRepository<User,Integer> {
     @Query("SELECT email FROM user")
     List<String> findAllEmails();
 
-    @Query("SELECT fullName FROM user")
-    List<String> findAllFullName();
-
 }
