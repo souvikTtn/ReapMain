@@ -21,6 +21,16 @@ public class Recognition {
 
     private String senderName;
 
+    private String receiverImage;
+
+    public String getReceiverImage() {
+        return receiverImage;
+    }
+
+    public void setReceiverImage(String receiverImage) {
+        this.receiverImage = receiverImage;
+    }
+
     private Boolean revoked=false;
 
     @Override
@@ -31,6 +41,7 @@ public class Recognition {
                 ", receiverId=" + receiverId +
                 ", receiverName='" + receiverName + '\'' +
                 ", senderName='" + senderName + '\'' +
+                ", receiverImage='" + receiverImage + '\'' +
                 ", revoked=" + revoked +
                 ", goldRedeemable=" + goldRedeemable +
                 ", silverRedeemable=" + silverRedeemable +

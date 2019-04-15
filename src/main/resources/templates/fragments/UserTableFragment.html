@@ -172,7 +172,8 @@
                 <div  class="card-body" th:each="recognition: ${recognitions}">
                     <div class="row newer-row align-items-center">
                         <div class="col-sm-2 text-center">
-                            <i class="far fa-user-circle"></i>
+                            <!--<i class="far fa-user-circle"></i>-->
+                            <img style="height: 6em;width: 6em;" th:src="@{''+${recognition.getReceiverImage()}}" class="img-circle">
                         </div>
                         <div class="col-sm-10 recognitionIdClass">
                                  <input type="text" style="display: none" name="recognitionIdToRevoke"
@@ -211,7 +212,8 @@
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-3">
-                            <i class="far fa-user-circle"></i>
+                            <!--<i class="far fa-user-circle"></i>-->
+                            <img style="height: 6em;width: 6em;" th:src="@{''+${user.getImage()}}" class="img-circle">
                         </div>
                         <div class="col-9">
                             <strong th:text="${user.firstName}+' '+${user.lastName}"></strong><br/>
@@ -247,7 +249,8 @@
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-3">
-                            <i class="far fa-user-circle"></i>
+                           <!-- <i class="far fa-user-circle"></i>-->
+                            <img style="height: 6em;width: 6em;" th:src="@{''+${user.getImage()}}" class="img-circle">
                         </div>
                         <div class="col-9">
                             <strong th:text="${user.firstName}+' '+${user.lastName}"></strong><br/>
@@ -277,7 +280,8 @@
                 <div class="card-body" th:each="recognition:${recognitions}">
                     <div class="row newer-row justify-content-center">
                         <div class="col-3">
-                            <i class="far fa-user-circle"></i>
+                            <!--<i class="far fa-user-circle"></i>-->
+                            <img style="height: 6em;width: 6em;" th:src="@{''+${recognition.getReceiverImage()}}" class="img-circle">
                         </div>
                         <div class="col-9">
                             <strong th:text="${recognition.getReceiverName()}"></strong><br/>

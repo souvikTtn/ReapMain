@@ -115,6 +115,7 @@ public class UserController {
 
             List<Recognition> recognitions=recognitionService.getListOfRecognitions();
             Collections.reverse(recognitions);
+
             model.addAttribute("recognitions",recognitions);
             if(user.get().getRoleSet().contains(Role.ADMIN)){
                 model.addAttribute("isAdmin",true);

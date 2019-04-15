@@ -45,7 +45,7 @@ public class UserBootstrap {
             user1.setFirstName("Deepika");
             user1.setLastName("Tiwari");
             user1.setPassword("deesssooo");
-            user1.setImage("/userImages/dummyImage.png");
+            user1.setImage("/userImages/dummyImage2.png");
             user1.setFullName(user1.getFirstName()+" "+user1.getLastName());
             userService.addUser(user1);
 
@@ -56,7 +56,7 @@ public class UserBootstrap {
             user3.setLastName("Arora");
             user3.setPassword("deesssooo");
             user3.setFullName(user3.getFirstName()+" "+user3.getLastName());
-            user3.setImage("/userImages/dummyImage.png");
+            user3.setImage("/userImages/dummyImage2.png");
             userService.addUser(user3);
 
             User user2 = new User();
@@ -76,7 +76,7 @@ public class UserBootstrap {
             user4.setLastName("Sinha");
             user4.setPassword("deesssooo");
             user4.setFullName(user4.getFirstName()+" "+user4.getLastName());
-            user4.setImage("/userImages/dummyImage.png");
+            user4.setImage("/userImages/dummyImage2.png");
             userService.addUser(user4);
 
             User user5 = new User();

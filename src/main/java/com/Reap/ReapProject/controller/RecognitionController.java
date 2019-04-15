@@ -64,6 +64,7 @@ public class RecognitionController {
              }
 
              recognition.setReceiverId(user.getId());
+             recognition.setReceiverImage(user.getImage());
              recognitionService.addRecognition(recognition);
              User receiver=userService.getUserById(recognition.getReceiverId()).get();
 

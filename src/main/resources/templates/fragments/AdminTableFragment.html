@@ -34,7 +34,7 @@
                 </th>
                 <td>
                     <img class="img-fluid user-photo"
-                         th:src="${(user.image != null) ? user.getImage() : '/images/favicon.ico'}"/>
+                         th:src="${(user.image != null) ? user.getImage() : '/images/favicon.ico'}" style="height: 6em;width: 6em;"/>
                 </td>
                 <td th:text="${user.fullName}" name="fullName"></td>
                 <td th:text="${user.email}" name="email"></td>
