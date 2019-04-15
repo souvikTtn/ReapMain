@@ -49,8 +49,8 @@ public class RecognitionController {
                 throw new UnauthorisedAccessException("Unauthorized Access");
             }
 
-             Integer receiverId=recognition.getReceiverId();
-             User user=userService.getUserById(receiverId).get();
+             String receiverName=recognition.getReceiverName();
+             User user=userService.getUserByFullName(receiverName);
              if(user==null){
                  HttpHeaders httpHeaders=new HttpHeaders();
                  httpHeaders.set("MyResponseHeader","notExist");
