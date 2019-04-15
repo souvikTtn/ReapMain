@@ -140,8 +140,10 @@ public class UserController {
             throw new UnauthorisedAccessException("Unauthorized Access");
         }
 
-        System.out.println("path variable id "+id);
-        System.out.println("session id "+loggedUser.getId());
+        if(!loggedUser.getRoleSet().contains(Role.ADMIN)){
+            throw new UnauthorisedAccessException("Unauthorised Access");
+        }
+
         Optional<User> user1=userService.getUserById(id);
         if(user1.isPresent()){
             //updating users active status
