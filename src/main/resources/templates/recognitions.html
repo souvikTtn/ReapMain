@@ -12,7 +12,8 @@
         <div class="card-body" th:each="recognition: ${receivedRecognitionsList}">
             <div class="row newer-row align-items-center">
                 <div class="col-sm-2 text-center">
-                    <i class="far fa-user-circle"></i>
+                    <!--<i class="far fa-user-circle"></i>-->
+                    <img style="height: 6em;width: 6em;" th:src="@{''+${recognition.getSenderImage()}}" class="img-circle">
                 </div>
                 <div class="col-sm-10">
                     <p><strong>You </strong>
@@ -44,7 +45,8 @@
         <div class="card-body" th:each="recognition: ${sentRecognitionsList}">
             <div class="row newer-row align-items-center">
                 <div class="col-sm-2 text-center">
-                    <i class="far fa-user-circle"></i>
+                    <!--<i class="far fa-user-circle"></i>-->
+                    <img style="height: 6em;width: 6em;" th:src="@{''+${recognition.getReceiverImage()}}" class="img-circle">
                 </div>
                 <div class="col-sm-10">
                     <p><strong th:text="${recognition.getReceiverName()}"></strong>

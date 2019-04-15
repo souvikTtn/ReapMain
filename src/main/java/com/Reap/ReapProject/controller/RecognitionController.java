@@ -63,8 +63,10 @@ public class RecognitionController {
                  return new ResponseEntity<String>("User Cant recognize Himself click to continue",httpHeaders,HttpStatus.OK);
              }
 
+             User sender=userService.getUserById(recognition.getSenderId()).get();
              recognition.setReceiverId(user.getId());
              recognition.setReceiverImage(user.getImage());
+             recognition.setSenderImage(sender.getImage());
              recognitionService.addRecognition(recognition);
              User receiver=userService.getUserById(recognition.getReceiverId()).get();
 
