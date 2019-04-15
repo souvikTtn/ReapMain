@@ -31,6 +31,7 @@ public class UserBootstrap {
             user.setPassword("souvikdgreat");
             user.setFullName(user.getFirstName()+" "+user.getLastName());
             user.setActive(true);
+            user.setImage("/userImages/dummyImage.png");
             Set<Role> roles=new HashSet<>();
             roles.add(Role.ADMIN);
             roles.add(Role.USER);
@@ -44,6 +45,7 @@ public class UserBootstrap {
             user1.setFirstName("Deepika");
             user1.setLastName("Tiwari");
             user1.setPassword("deesssooo");
+            user1.setImage("/userImages/dummyImage.png");
             user1.setFullName(user1.getFirstName()+" "+user1.getLastName());
             userService.addUser(user1);
 
@@ -54,6 +56,7 @@ public class UserBootstrap {
             user3.setLastName("Arora");
             user3.setPassword("deesssooo");
             user3.setFullName(user3.getFirstName()+" "+user3.getLastName());
+            user3.setImage("/userImages/dummyImage.png");
             userService.addUser(user3);
 
             User user2 = new User();
@@ -63,6 +66,7 @@ public class UserBootstrap {
             user2.setLastName("Oberoi");
             user2.setPassword("deesssooo");
             user2.setFullName(user2.getFirstName()+" "+user2.getLastName());
+            user2.setImage("/userImages/dummyImage.png");
             userService.addUser(user2);
 
             User user4 = new User();
@@ -72,6 +76,7 @@ public class UserBootstrap {
             user4.setLastName("Sinha");
             user4.setPassword("deesssooo");
             user4.setFullName(user4.getFirstName()+" "+user4.getLastName());
+            user4.setImage("/userImages/dummyImage.png");
             userService.addUser(user4);
 
             User user5 = new User();
@@ -80,6 +85,7 @@ public class UserBootstrap {
             user5.setFirstName("Subham");
             user5.setLastName("Chakraborty");
             user5.setPassword("deesssooo");
+            user5.setImage("/userImages/dummyImage.png");
             user5.setFullName(user5.getFirstName()+" "+user5.getLastName());
             userService.addUser(user5);
 

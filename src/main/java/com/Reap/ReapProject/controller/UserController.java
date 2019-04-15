@@ -49,7 +49,7 @@ public class UserController {
         }
         else {
                 List<String> emails=userService.findAllEmails();
-                //unique email id
+                //for checking unique email id
                 if(emails.contains(user.getEmail())){
                     System.out.println("email id already exists");
                     ModelAndView modelAndView=new ModelAndView("redirect:/");
@@ -72,6 +72,7 @@ public class UserController {
         }
     }
 
+    //utility method for saving the path of profile picture of user
     public String saveImagePath(MultipartFile file) throws IOException {
         String UPLOADED_FOLDER = "/home/joyy/Documents/Reap/ReapProject/out/production/resources/static/images/userImages/";
                 byte[] bytes = file.getBytes();
@@ -93,14 +94,12 @@ public class UserController {
         User user1=(User) session.getAttribute("loginUser");
         try {
             if(!id.equals(user1.getId())){
-                System.out.println("id differs");
                 ModelAndView modelAndView=new ModelAndView("redirect:/");
                 redirectAttributes.addFlashAttribute("loginError","Please login to continue");
                 return modelAndView;
             }
         }
         catch (NullPointerException e){
-            System.out.println("null pointer");
             ModelAndView modelAndView=new ModelAndView("redirect:/");
             redirectAttributes.addFlashAttribute("loginError","Please login to continue");
             return modelAndView;
@@ -205,11 +204,8 @@ public class UserController {
     @PostMapping("/searchRecogByName")
     @ResponseBody
     public List<Recognition> getUserRecognitionByNameSearchUser(@ModelAttribute("searchUser")SearchUser searchUser){
-        System.out.println("controller called");
-        System.out.println("search user "+searchUser);
         searchUser.getCurrentUserId();
         List<Recognition> recognitions=recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName());
-        System.out.println( recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName()));
         return  recognitions;
     }
 
@@ -225,7 +221,6 @@ public class UserController {
     @GetMapping("/autocomplete")
     @ResponseBody
     public List<User> autoComplete(@RequestParam("pattern")String namePattern){
-        System.out.println(userService.findByFullNameLike(namePattern+"%"));
         return userService.findByFullNameLike(namePattern+"%");
     }
 
@@ -249,12 +244,10 @@ public class UserController {
         try {
             if (!id.equals(activeUser.getId())) {
                 ModelAndView modelAndView = new ModelAndView("redirect:/");
-                System.out.println("id differs");
                 redirectAttributes.addFlashAttribute("loginError", "Please log in to view your recognitions");
                 return modelAndView;
             }
         } catch (NullPointerException ne) {
-            System.out.println("null pointer");
             ModelAndView modelAndView = new ModelAndView("redirect:/");
             redirectAttributes.addFlashAttribute("loginError", "Please log in to view your recognitions");
             return modelAndView;
