@@ -40,6 +40,7 @@ public class RecognitionService {
                 }
                 else {
                     System.out.println("not enough badges");
+                    throw new RuntimeException("not enough badges");
                 }
             }
             if (recognition.getBadge().equals("gold")) {
@@ -49,6 +50,7 @@ public class RecognitionService {
                 }
                 else {
                     System.out.println("not enough badges");
+                    throw new RuntimeException("not enough badges");
                 }
             }
 
@@ -59,6 +61,7 @@ public class RecognitionService {
                 }
                 else {
                     System.out.println("not enough badges");
+                    throw new RuntimeException("not enough badges");
                 }
             }
         }
