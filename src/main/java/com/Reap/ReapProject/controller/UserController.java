@@ -2,7 +2,11 @@ package com.Reap.ReapProject.controller;
 
 import com.Reap.ReapProject.component.LoggedInUser;
 import com.Reap.ReapProject.component.SearchUser;
-import com.Reap.ReapProject.entity.*;
+import com.Reap.ReapProject.entity.Item;
+import com.Reap.ReapProject.entity.OrderSummary;
+import com.Reap.ReapProject.entity.Recognition;
+import com.Reap.ReapProject.entity.Role;
+import com.Reap.ReapProject.entity.User;
 import com.Reap.ReapProject.exception.UnauthorisedAccessException;
 import com.Reap.ReapProject.exception.UserNotFoundException;
 import com.Reap.ReapProject.service.ItemService;
@@ -13,7 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -25,7 +35,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -43,88 +60,95 @@ public class UserController {
 
     // Create new user
     @PostMapping("/users")
-    public ModelAndView addUser(@Valid @ModelAttribute("user") User user, BindingResult result,@ModelAttribute("loggedUser")LoggedInUser loggedInUser, @RequestParam("photo") MultipartFile file,HttpServletRequest request,RedirectAttributes redirectAttributes){
-        if(result.hasErrors()){
+    public ModelAndView addUser(@Valid @ModelAttribute("user") User user, BindingResult result,
+                                @ModelAttribute("loggedUser") LoggedInUser loggedInUser,
+                                @RequestParam("photo") MultipartFile file, HttpServletRequest request,
+                                RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
             return new ModelAndView("index");
-        }
-        else {
-                List<String> emails=userService.findAllEmails();
-                //for checking unique email id
-                if(emails.contains(user.getEmail())){
-                    System.out.println("email id already exists");
-                    ModelAndView modelAndView=new ModelAndView("redirect:/");
-                    redirectAttributes.addFlashAttribute("registrationError","Email id already Taken Try a Different One");
-                    return modelAndView;
-                }
-            HttpSession session=request.getSession();
-            session.setAttribute("loginUser",user);
-            List<Item> itemList=new ArrayList<>();
-            session.setAttribute("itemList",itemList);
+        } else {
+            List<String> emails = userService.findAllEmails();
+            //for checking unique email id
+            if (emails.contains(user.getEmail())) {
+                System.out.println("email id already exists");
+                ModelAndView modelAndView = new ModelAndView("redirect:/");
+                redirectAttributes.addFlashAttribute("registrationError", "Email id already Taken Try a Different One");
+                return modelAndView;
+            }
+            HttpSession session = request.getSession();
+            session.setAttribute("loginUser", user);
+            List<Item> itemList = new ArrayList<>();
+            session.setAttribute("itemList", itemList);
             session.setAttribute("currentCartTotal", 0);
             try {
-                String path=saveImagePath(file);
+                String path = saveImagePath(file);
                 user.setImage(path);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             userService.addUser(user);
-            return new ModelAndView("redirect:/users/"+user.getId());
+            return new ModelAndView("redirect:/users/" + user.getId());
         }
     }
 
     //utility method for saving the path of profile picture of user
-    public String saveImagePath(MultipartFile file) throws IOException {
-        String UPLOADED_FOLDER = "/home/joyy/Documents/Reap/ReapProject/out/production/resources/static/images/userImages/";
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-                Files.write(path, bytes);
-                return "/images/userImages/"+file.getOriginalFilename();
+    public String saveImagePath(MultipartFile file)
+    throws IOException {
+        String UPLOADED_FOLDER = "/home/joyy/Documents/Reap/ReapProject/out/production/resources/static/images" +
+                                 "/userImages/";
+        byte[] bytes = file.getBytes();
+        Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+        Files.write(path, bytes);
+        return "/images/userImages/" + file.getOriginalFilename();
     }
 
 
     @GetMapping("/users")
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userService.getAllUser();
     }
 
     // Show user dashboard
     @GetMapping("/users/{id}")
-    public ModelAndView getUserById(@PathVariable("id") Integer id, Model model, HttpServletRequest request,RedirectAttributes redirectAttributes){
-        HttpSession session=request.getSession();
-        User user1=(User) session.getAttribute("loginUser");
+    public ModelAndView getUserById(@PathVariable("id") Integer id, Model model, HttpServletRequest request,
+                                    RedirectAttributes redirectAttributes) {
+        HttpSession session = request.getSession();
+        User user1 = (User) session.getAttribute("loginUser");
         try {
-            if(!id.equals(user1.getId())){
-                ModelAndView modelAndView=new ModelAndView("redirect:/");
-                redirectAttributes.addFlashAttribute("loginError","Please login to continue");
+            if (!id.equals(user1.getId())) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/");
+                redirectAttributes.addFlashAttribute("loginError", "Please login to continue");
                 return modelAndView;
             }
-        }
-        catch (NullPointerException e){
-            ModelAndView modelAndView=new ModelAndView("redirect:/");
-            redirectAttributes.addFlashAttribute("loginError","Please login to continue");
+        } catch (NullPointerException e) {
+            ModelAndView modelAndView = new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("loginError", "Please login to continue");
             return modelAndView;
         }
 
 
-        Optional<User> user=userService.getUserById(id);
-        if(user.isPresent()){
-            ModelAndView modelAndView=new ModelAndView("UserPage");
-            model.addAttribute("user",user.get());
-            model.addAttribute("recognition",new Recognition());
-            model.addAttribute("searchUser",new SearchUser());
+        Optional<User> user = userService.getUserById(id);
+        if (user.isPresent()) {
+            ModelAndView modelAndView = new ModelAndView("UserPage");
+            model.addAttribute("user", user.get());
+            model.addAttribute("recognition", new Recognition());
+            model.addAttribute("searchUser", new SearchUser());
 
-            List<Recognition> recognitions=recognitionService.getListOfRecognitions();
+            List<Recognition> recognitions = recognitionService.getListOfRecognitions();
             Collections.reverse(recognitions);
 
-            model.addAttribute("recognitions",recognitions);
-            if(user.get().getRoleSet().contains(Role.ADMIN)){
-                model.addAttribute("isAdmin",true);
-                List<User> users=userService.getAllUser();
-                model.addAttribute("users",users);
+            model.addAttribute("recognitions", recognitions);
+            if (user.get().getRoleSet().contains(Role.ADMIN)) {
+                model.addAttribute("isAdmin", true);
+                List<User> users =
+                        (userService.getAllUser()).stream().filter(it->!it.getRoleSet().contains(Role.ADMIN)).collect(
+                                Collectors.toList());
+                model.addAttribute("users", users);
             }
             return modelAndView;
+        } else {
+            throw new UserNotFoundException("no user with the given id exists");
         }
-        else throw new UserNotFoundException("no user with the given id exists");
     }
 
 
@@ -132,35 +156,35 @@ public class UserController {
     //Controller Meant for Admin editing user roles and points
     // Modify user with id {id}
     @PutMapping("/users/{id}")
-    public ModelAndView updateUser(@PathVariable Integer id,@RequestParam Map<String, String> requestParams,HttpServletRequest request,RedirectAttributes redirectAttributes){
-        HttpSession session=request.getSession();
-        User loggedUser=(User)session.getAttribute("loginUser");
+    public ModelAndView updateUser(@PathVariable Integer id, @RequestParam Map<String, String> requestParams,
+                                   HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        HttpSession session = request.getSession();
+        User loggedUser = (User) session.getAttribute("loginUser");
 
-        if(session==null){
+        if (session == null) {
             throw new UnauthorisedAccessException("Unauthorized Access");
         }
 
-        if(!loggedUser.getRoleSet().contains(Role.ADMIN)){
+        if (!loggedUser.getRoleSet().contains(Role.ADMIN)) {
             throw new UnauthorisedAccessException("Unauthorised Access");
         }
 
-        Optional<User> user1=userService.getUserById(id);
-        if(user1.isPresent()){
+        Optional<User> user1 = userService.getUserById(id);
+        if (user1.isPresent()) {
             //updating users active status
-            if(requestParams.get("active")==null){
+            if (requestParams.get("active") == null) {
                 user1.get().setActive(false);
-            }
-             else {
+            } else {
                 user1.get().setActive(true);
             }
 
-            Set<Role> roles=user1.get().getRoleSet();
-            roles=roleChecker(roles,requestParams.get("adminCheck"),Role.ADMIN);
-            roles=roleChecker(roles,requestParams.get("practiceHeadCheck"),Role.PRACTICE_HEAD);
-            roles=roleChecker(roles,requestParams.get("supervisorCheck"),Role.SUPERVISOR);
-            roles=roleChecker(roles,requestParams.get("userCheck"),Role.USER);
+            Set<Role> roles = user1.get().getRoleSet();
+            roles = roleChecker(roles, requestParams.get("adminCheck"), Role.ADMIN);
+            roles = roleChecker(roles, requestParams.get("practiceHeadCheck"), Role.PRACTICE_HEAD);
+            roles = roleChecker(roles, requestParams.get("supervisorCheck"), Role.SUPERVISOR);
+            roles = roleChecker(roles, requestParams.get("userCheck"), Role.USER);
 
-           //updating roles
+            //updating roles
             user1.get().setRoleSet(roles);
 
             //updating the Badges by Admin
@@ -169,36 +193,36 @@ public class UserController {
             user1.get().setBronzeRedeemable(Integer.parseInt(requestParams.get("bronzeRedeemable")));
 
 
-
             userService.adminEditUser(user1.get());
-            redirectAttributes.addFlashAttribute("successfulUpdate","user successfully Updated");
+            redirectAttributes.addFlashAttribute("successfulUpdate", "user successfully Updated");
 
             //Update User and Admin points in the Current Session
             User activeUserRefreshed = userService.getUserById(loggedUser.getId()).get();
             session.setAttribute("loginUser", activeUserRefreshed);
-            ModelAndView modelAndView=new ModelAndView("redirect:/users/"+loggedUser.getId());
+            ModelAndView modelAndView = new ModelAndView("redirect:/users/" + loggedUser.getId());
             return modelAndView;
+        } else {
+            throw new UserNotFoundException("no user with the given id exists");
         }
-        else throw new UserNotFoundException("no user with the given id exists");
     }
 
     // Log user in
     @PostMapping("/login")
-    public ModelAndView userLogin(@ModelAttribute("loggedUser")LoggedInUser loggedInUser, HttpServletRequest request, RedirectAttributes redirectAttributes){
+    public ModelAndView userLogin(@ModelAttribute("loggedUser") LoggedInUser loggedInUser, HttpServletRequest request,
+                                  RedirectAttributes redirectAttributes) {
 
-        User user=userService.getUserByEmailAndPasswordAndActive(loggedInUser.getEmail(),loggedInUser.getPassword());
+        User user = userService.getUserByEmailAndPasswordAndActive(loggedInUser.getEmail(), loggedInUser.getPassword());
 
-        if(user!=null){
-            HttpSession session=request.getSession();
-            List<Item> itemList=new ArrayList<>();
-            session.setAttribute("loginUser",user);
-            session.setAttribute("itemList",itemList);
+        if (user != null) {
+            HttpSession session = request.getSession();
+            List<Item> itemList = new ArrayList<>();
+            session.setAttribute("loginUser", user);
+            session.setAttribute("itemList", itemList);
             session.setAttribute("currentCartTotal", 0);
-            return  new ModelAndView("redirect:/users/"+user.getId());
-        }
-        else {
-            ModelAndView modelAndView=new ModelAndView("redirect:/");
-            redirectAttributes.addFlashAttribute("loginError","Invalid Credentials");
+            return new ModelAndView("redirect:/users/" + user.getId());
+        } else {
+            ModelAndView modelAndView = new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("loginError", "Invalid Credentials");
             return modelAndView;
         }
     }
@@ -206,32 +230,32 @@ public class UserController {
     // Search recognitions by receiver name
     @PostMapping("/searchRecogByName")
     @ResponseBody
-    public List<Recognition> getUserRecognitionByNameSearchUser(@ModelAttribute("searchUser")SearchUser searchUser){
+    public List<Recognition> getUserRecognitionByNameSearchUser(@ModelAttribute("searchUser") SearchUser searchUser) {
         searchUser.getCurrentUserId();
-        List<Recognition> recognitions=recognitionService.getListOfRecognitionsByReceiverName(searchUser.getFullName());
-        return  recognitions;
+        List<Recognition> recognitions = recognitionService
+                .getListOfRecognitionsByReceiverName(searchUser.getFullName());
+        return recognitions;
     }
 
     // Search recognitions by date
     @GetMapping("/searchRecogByDate/{date}")
     @ResponseBody
-    public List<Recognition> getUserRecognitionByNameDate(@PathVariable("date") String date){
-        List<Recognition> recognitions=recognitionService.findRecognitionByDateBetween(date);
+    public List<Recognition> getUserRecognitionByNameDate(@PathVariable("date") String date) {
+        List<Recognition> recognitions = recognitionService.findRecognitionByDateBetween(date);
         return recognitions;
     }
 
     // Autocomplete user name
     @GetMapping("/autocomplete")
     @ResponseBody
-    public List<User> autoComplete(@RequestParam("pattern")String namePattern){
-        return userService.findByFullNameLike(namePattern+"%");
+    public List<User> autoComplete(@RequestParam("pattern") String namePattern) {
+        return userService.findByFullNameLike(namePattern + "%");
     }
 
     // Log user out
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request)
-    {
-        HttpSession session=request.getSession();
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
         session.invalidate();
         return "redirect:/";
     }
@@ -260,22 +284,23 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("recognitions");
         modelAndView.addObject("user", optionalUser.get());
 
-        List<Recognition> receivedRecognitionsList = recognitionService.findRecognitionByReceiverId(optionalUser.get().getId());
+        List<Recognition> receivedRecognitionsList = recognitionService
+                .findRecognitionByReceiverId(optionalUser.get().getId());
         modelAndView.addObject("receivedRecognitionsList", receivedRecognitionsList);
 
-        List<Recognition> sentRecognitionsList = recognitionService.findRecognitionBySenderId(optionalUser.get().getId());
+        List<Recognition> sentRecognitionsList = recognitionService
+                .findRecognitionBySenderId(optionalUser.get().getId());
         modelAndView.addObject("sentRecognitionsList", sentRecognitionsList);
         return modelAndView;
     }
 
 
     //user role checking utility methods
-    public Set<Role> roleChecker(Set<Role> roles,String status,Role role){
-        if(status==null){
+    public Set<Role> roleChecker(Set<Role> roles, String status, Role role) {
+        if (status == null) {
             roles.remove(role);
             return roles;
-        }
-        else {
+        } else {
             roles.add(role);
             return roles;
         }
@@ -318,8 +343,8 @@ public class UserController {
     // Show user order history
     @GetMapping("/users/{id}/orders")
     public ModelAndView getOrderHistory(@PathVariable("id") Integer id,
-                                    HttpServletRequest httpServletRequest,
-                                    RedirectAttributes redirectAttributes) {
+                                        HttpServletRequest httpServletRequest,
+                                        RedirectAttributes redirectAttributes) {
         HttpSession httpSession = httpServletRequest.getSession();
         User activeUser = (User) httpSession.getAttribute("loginUser");
         try {
@@ -340,7 +365,7 @@ public class UserController {
 
         ModelAndView modelAndView = new ModelAndView("OrderHistory");
         modelAndView.addObject("user", optionalUser.get());
-        List<OrderSummary> orderSummaries =orderSummaryService.getAllOrdersByUserId(activeUser.getId());
+        List<OrderSummary> orderSummaries = orderSummaryService.getAllOrdersByUserId(activeUser.getId());
         modelAndView.addObject("orderSummaryList", orderSummaries);
 
         //this list will store all the item keys in the order summaries
